@@ -1,20 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Emgu;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using Emgu.CV.CvEnum;
 using System.Diagnostics;
 using System.IO;
-using System.Drawing.Imaging;
-using System.Threading;
 using static Emgu.CV.FaceRecognizer;
 
 namespace FaceRecognizerProject
@@ -23,13 +15,19 @@ namespace FaceRecognizerProject
     {
         //Capture will access the camera and reads the stream
         private static CascadeClassifier classifier = new CascadeClassifier(@"haarcascade_frontalface_alt_tree.xml");
+        //gets camera stream as images
         Capture capture;
+        //The original image we read from cam
         Image<Bgr, byte> capturedImage = null;
-        FaceRecognizer faceRecognizer = new EigenFaceRecognizer(80, double.PositiveInfinity);
+        //Recognizer Algorithm
+        FaceRecognizer faceRecognizer = new LBPHFaceRecognizer(1, 8, 8, 8, 100.0);
+        //The text font that we write the person name
         MCvFont mCvFont = new MCvFont(FONT.CV_FONT_HERSHEY_TRIPLEX, 1.0, 1.0);
-
+        //if you dont want to try catching everytime your face detected you an enable auto capture
         bool autoCapture = false;
+        //there will be a limit of time that you  can auto capture otherwise you will have a large amount of same face
         long elapsedTimeforAutoCapture = 0;
+        //all settings are ready for capturing face? like does this person have a name
         private bool canCapture = false;
 
 
@@ -38,10 +36,11 @@ namespace FaceRecognizerProject
         Stopwatch stopwatch = new Stopwatch();
         int fps = 0;
 
-        
+
         Color foreColor;
         string info = "";
 
+        List<string> listOfFileNames = new List<string>();
         bool modeltrained = false;
         public frmfacerec()
         {
@@ -50,7 +49,7 @@ namespace FaceRecognizerProject
             timerCameraFramer.Start();
             stopwatch.Start();
         }
-        
+
         private void timerCameraFramer_Tick(object sender, EventArgs e)
         {
             canCapture = false;
@@ -65,7 +64,11 @@ namespace FaceRecognizerProject
             capturedImage = capture.QueryFrame();
             if (modeltrained == false)
             {
-                Image<Bgr, byte> foundFace = DetecetFace(capturedImage.Clone());
+                Tuple<Image<Bgr, byte>, Image<Gray, byte>> faceRectandGrayFace = DetecetFace(capturedImage.Clone());
+                Image<Bgr, byte> foundFaceRect = faceRectandGrayFace.Item1;
+                Image<Gray, byte> foundFace = faceRectandGrayFace.Item2;
+
+
                 info = "";
                 if (autoCapture && txtpersonname.Text != string.Empty)
                 {
@@ -76,7 +79,7 @@ namespace FaceRecognizerProject
                         if (canCapture)
                         {
 
-                            SaveImage(capturedImage, txtpersonname.Text + random.Next(0, 9).ToString() + random.Next(0, 9).ToString() + random.Next(0, 9).ToString());
+                            SaveImage(foundFace, txtpersonname.Text + random.Next(0, 9).ToString() + random.Next(0, 9).ToString() + random.Next(0, 9).ToString());
                             elapsedTimeforAutoCapture = 0;
                             info = "Image Captured";
                             foreColor = Color.Green;
@@ -92,13 +95,19 @@ namespace FaceRecognizerProject
 
                     }
                 }
+                else if (canCapture && txtpersonname.Text == string.Empty)
+                {
+                    elapsedTimeforAutoCapture -= 100;
+                    info = "Image could not captured";
+                    foreColor = Color.Red;
+                }
                 lblCapturingInfo.Text = info;
                 lblCapturingInfo.ForeColor = foreColor;
 
-                imageBLiveCamera.Image = foundFace;
+                imageBLiveCamera.Image = foundFaceRect;
             }
             //if model trained then we need to guess
-            if(modeltrained == true)
+            if (modeltrained == true)
             {
                 Guess(capturedImage);
             }
@@ -124,12 +133,14 @@ namespace FaceRecognizerProject
                 {
                     result.Label = -1;
                 }
-               if(result.Label>=0)
+                if (result.Label >= 0)
                 {
-                    capturedImage.Draw(rect, new Bgr(Color.Green), 2);
-                    capturedImage.Draw(result.Label.ToString(), ref mCvFont,new Point(rect.X - 2, rect.Y - 2),new Bgr(Color.Green));
+                    capturedImage.Draw(rect, new Bgr(Color.OrangeRed), 3);
+
+                    capturedImage.Draw(new Rectangle(new Point(rect.X, rect.Y + rect.Height), new Size(rect.Width - 2, 20)), new Bgr(Color.OrangeRed), 20);
+                    capturedImage.Draw(listOfFileNames[result.Label], ref mCvFont, new Point(rect.X + 4, rect.Y + rect.Height + 15), new Bgr(Color.White));
                 }
-               else
+                else
                 {
                     capturedImage.Draw(rect, new Bgr(Color.Red), 4);
                     capturedImage.Draw("Unknown", ref mCvFont, new Point(rect.X - 2, rect.Y - 2), new Bgr(Color.White));
@@ -138,13 +149,13 @@ namespace FaceRecognizerProject
             imageBLiveCamera.Image = capturedImage;
         }
 
-        Image<Bgr, byte> DetecetFace(Image<Bgr, byte> _image)
+        private Tuple<Image<Bgr, byte>, Image<Gray, byte>> DetecetFace(Image<Bgr, byte> _image)
         {
             if (_image == null)
                 return null;
 
             Image<Gray, byte> grayImage = _image.Convert<Gray, byte>();
-
+            Image<Gray, byte> face = null;
             var faces = classifier.DetectMultiScale(
                 grayImage,
                 1.3,
@@ -155,12 +166,12 @@ namespace FaceRecognizerProject
             foreach (var rect in faces)
             {
                 _image.Draw(rect, new Bgr(Color.Green), 2);
+
                 canCapture = true;
+                face = grayImage.Copy(rect);
             }
 
-
-
-            return _image;
+            return new Tuple<Image<Bgr, byte>, Image<Gray, byte>>(_image, face);
         }
 
         private void frmfacerec_Load(object sender, EventArgs e)
@@ -194,18 +205,27 @@ namespace FaceRecognizerProject
             List<int> labels = new List<int>();
             if (dialogResult == DialogResult.OK)
             {
-                int i = 0;
-                foreach (var file in Directory.GetFiles(folderBrowserTraininImages.SelectedPath))
+                int i = 0, lastPersonindex = 0;
+                foreach (string file in Directory.GetFiles(Application.StartupPath + "\\training\\"))
                 {
-                    Image<Bgr, byte> faceImage = DetecetFace(new Image<Bgr, byte>(file));
+                    Image<Gray, byte> faceImage = new Image<Gray, byte>(file);
+                    images.Add(faceImage);
 
-                    Image<Gray, byte> face = faceImage.Copy(faceImage.ROI).Convert<Gray, byte>();
-                    face._EqualizeHist();
-                    images.Add(face);
-                    labels.Add(i++);
+                    string name = Path.GetFileName(file).Split('.')[0];
+                    name = name.Substring(0, name.Length - 3);
+
+                    if (listOfFileNames.Contains(name) == false)
+                    {
+                        lastPersonindex = i;
+                        labels.Add(i++);
+                        listOfFileNames.Add(name);
+                    }
+                    else
+                        labels.Add(lastPersonindex);
                 }
                 faceRecognizer.Train(images.ToArray(), labels.ToArray());
                 gruopTrained.Enabled = modeltrained = true;
+                listBox1.Items.AddRange(listOfFileNames.ToArray());
             }
         }
 
@@ -223,9 +243,8 @@ namespace FaceRecognizerProject
                 MessageBox.Show("there should be a person name");
                 return;
             }
-          
-           
-            Image<Bgr, byte> foundFace = DetecetFace(capturedImage.Clone());
+            
+            Image<Bgr, byte> foundFace = DetecetFace(capturedImage.Clone()).Item1;
             if (canCapture)
             {
                 info = "Image Captured";
@@ -244,12 +263,12 @@ namespace FaceRecognizerProject
             lblCapturingInfo.ForeColor = foreColor;
         }
 
-        void SaveImage(Image<Bgr, byte> _image, string name = "", string path = "training\\")
+        void SaveImage(IImage _image, string name = "", string path = "training\\")
         {
             _image.Save(path + name + ".png");
         }
 
-        void radioButtonTrainedInfo_Checked(object sender,EventArgs e)
+        void radioButtonTrainedInfo_Checked(object sender, EventArgs e)
         {
             if (((RadioButton)sender).Text == "true")
                 modeltrained = true;

@@ -35,23 +35,24 @@
             this.btnTrain = new System.Windows.Forms.Button();
             this.folderBrowserTraininImages = new System.Windows.Forms.FolderBrowserDialog();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.txtpersonname = new System.Windows.Forms.TextBox();
-            this.btnCapture = new System.Windows.Forms.Button();
-            this.chcBautoCapture = new System.Windows.Forms.CheckBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.btnLoad = new System.Windows.Forms.Button();
+            this.lblCapturingInfo = new System.Windows.Forms.Label();
             this.grpbAutoCapture = new System.Windows.Forms.GroupBox();
             this.numupdautocapturems = new System.Windows.Forms.NumericUpDown();
-            this.lblCapturingInfo = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.chcBautoCapture = new System.Windows.Forms.CheckBox();
+            this.btnCapture = new System.Windows.Forms.Button();
+            this.txtpersonname = new System.Windows.Forms.TextBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.gruopTrained = new System.Windows.Forms.GroupBox();
-            this.rbtrue = new System.Windows.Forms.RadioButton();
             this.rbfalse = new System.Windows.Forms.RadioButton();
+            this.rbtrue = new System.Windows.Forms.RadioButton();
+            this.btnLoad = new System.Windows.Forms.Button();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.imageBLiveCamera)).BeginInit();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.grpbAutoCapture.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numupdautocapturems)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.gruopTrained.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -105,73 +106,14 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Capture Image";
             // 
-            // txtpersonname
+            // lblCapturingInfo
             // 
-            this.txtpersonname.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.txtpersonname.Location = new System.Drawing.Point(14, 61);
-            this.txtpersonname.Name = "txtpersonname";
-            this.txtpersonname.Size = new System.Drawing.Size(270, 30);
-            this.txtpersonname.TabIndex = 0;
-            // 
-            // btnCapture
-            // 
-            this.btnCapture.FlatAppearance.BorderColor = System.Drawing.Color.LimeGreen;
-            this.btnCapture.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCapture.Font = new System.Drawing.Font("Tahoma", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnCapture.Location = new System.Drawing.Point(14, 97);
-            this.btnCapture.Name = "btnCapture";
-            this.btnCapture.Size = new System.Drawing.Size(140, 72);
-            this.btnCapture.TabIndex = 6;
-            this.btnCapture.Text = "Capture";
-            this.btnCapture.UseVisualStyleBackColor = true;
-            this.btnCapture.Click += new System.EventHandler(this.btnCapture_Click);
-            // 
-            // chcBautoCapture
-            // 
-            this.chcBautoCapture.AutoSize = true;
-            this.chcBautoCapture.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.chcBautoCapture.Location = new System.Drawing.Point(160, 97);
-            this.chcBautoCapture.Name = "chcBautoCapture";
-            this.chcBautoCapture.Size = new System.Drawing.Size(124, 24);
-            this.chcBautoCapture.TabIndex = 7;
-            this.chcBautoCapture.Text = "AutoCapture";
-            this.chcBautoCapture.UseVisualStyleBackColor = true;
-            this.chcBautoCapture.CheckedChanged += new System.EventHandler(this.chcBautoCapture_CheckedChanged);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.label2.Location = new System.Drawing.Point(11, 26);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(111, 20);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "Person Name";
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.gruopTrained);
-            this.groupBox2.Controls.Add(this.btnLoad);
-            this.groupBox2.Controls.Add(this.btnTrain);
-            this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.groupBox2.Location = new System.Drawing.Point(669, 253);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(304, 94);
-            this.groupBox2.TabIndex = 6;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Recognizer";
-            // 
-            // btnLoad
-            // 
-            this.btnLoad.FlatAppearance.BorderColor = System.Drawing.Color.Indigo;
-            this.btnLoad.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLoad.Font = new System.Drawing.Font("Tahoma", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnLoad.Location = new System.Drawing.Point(109, 21);
-            this.btnLoad.Name = "btnLoad";
-            this.btnLoad.Size = new System.Drawing.Size(82, 67);
-            this.btnLoad.TabIndex = 5;
-            this.btnLoad.Text = "Load";
-            this.btnLoad.UseVisualStyleBackColor = true;
+            this.lblCapturingInfo.AutoSize = true;
+            this.lblCapturingInfo.Location = new System.Drawing.Point(18, 176);
+            this.lblCapturingInfo.Name = "lblCapturingInfo";
+            this.lblCapturingInfo.Size = new System.Drawing.Size(96, 17);
+            this.lblCapturingInfo.TabIndex = 7;
+            this.lblCapturingInfo.Text = "Capturing Info";
             // 
             // grpbAutoCapture
             // 
@@ -201,14 +143,61 @@
             0,
             0});
             // 
-            // lblCapturingInfo
+            // label2
             // 
-            this.lblCapturingInfo.AutoSize = true;
-            this.lblCapturingInfo.Location = new System.Drawing.Point(18, 176);
-            this.lblCapturingInfo.Name = "lblCapturingInfo";
-            this.lblCapturingInfo.Size = new System.Drawing.Size(96, 17);
-            this.lblCapturingInfo.TabIndex = 7;
-            this.lblCapturingInfo.Text = "Capturing Info";
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.label2.Location = new System.Drawing.Point(11, 26);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(111, 20);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Person Name";
+            // 
+            // chcBautoCapture
+            // 
+            this.chcBautoCapture.AutoSize = true;
+            this.chcBautoCapture.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.chcBautoCapture.Location = new System.Drawing.Point(160, 97);
+            this.chcBautoCapture.Name = "chcBautoCapture";
+            this.chcBautoCapture.Size = new System.Drawing.Size(124, 24);
+            this.chcBautoCapture.TabIndex = 7;
+            this.chcBautoCapture.Text = "AutoCapture";
+            this.chcBautoCapture.UseVisualStyleBackColor = true;
+            this.chcBautoCapture.CheckedChanged += new System.EventHandler(this.chcBautoCapture_CheckedChanged);
+            // 
+            // btnCapture
+            // 
+            this.btnCapture.FlatAppearance.BorderColor = System.Drawing.Color.LimeGreen;
+            this.btnCapture.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCapture.Font = new System.Drawing.Font("Tahoma", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnCapture.Location = new System.Drawing.Point(14, 97);
+            this.btnCapture.Name = "btnCapture";
+            this.btnCapture.Size = new System.Drawing.Size(140, 72);
+            this.btnCapture.TabIndex = 6;
+            this.btnCapture.Text = "Capture";
+            this.btnCapture.UseVisualStyleBackColor = true;
+            this.btnCapture.Click += new System.EventHandler(this.btnCapture_Click);
+            // 
+            // txtpersonname
+            // 
+            this.txtpersonname.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.txtpersonname.Location = new System.Drawing.Point(14, 61);
+            this.txtpersonname.Name = "txtpersonname";
+            this.txtpersonname.Size = new System.Drawing.Size(270, 30);
+            this.txtpersonname.TabIndex = 0;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.gruopTrained);
+            this.groupBox2.Controls.Add(this.btnLoad);
+            this.groupBox2.Controls.Add(this.btnTrain);
+            this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.groupBox2.Location = new System.Drawing.Point(669, 253);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(304, 94);
+            this.groupBox2.TabIndex = 6;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Recognizer";
             // 
             // gruopTrained
             // 
@@ -222,18 +211,6 @@
             this.gruopTrained.TabStop = false;
             this.gruopTrained.Text = "Trained";
             // 
-            // rbtrue
-            // 
-            this.rbtrue.AutoSize = true;
-            this.rbtrue.Location = new System.Drawing.Point(6, 22);
-            this.rbtrue.Name = "rbtrue";
-            this.rbtrue.Size = new System.Drawing.Size(54, 21);
-            this.rbtrue.TabIndex = 0;
-            this.rbtrue.TabStop = true;
-            this.rbtrue.Text = "true";
-            this.rbtrue.UseVisualStyleBackColor = true;
-            this.rbtrue.CheckedChanged += new System.EventHandler(this.radioButtonTrainedInfo_Checked);
-            // 
             // rbfalse
             // 
             this.rbfalse.AutoSize = true;
@@ -246,11 +223,45 @@
             this.rbfalse.UseVisualStyleBackColor = true;
             this.rbfalse.CheckedChanged += new System.EventHandler(this.radioButtonTrainedInfo_Checked);
             // 
+            // rbtrue
+            // 
+            this.rbtrue.AutoSize = true;
+            this.rbtrue.Location = new System.Drawing.Point(6, 22);
+            this.rbtrue.Name = "rbtrue";
+            this.rbtrue.Size = new System.Drawing.Size(54, 21);
+            this.rbtrue.TabIndex = 0;
+            this.rbtrue.TabStop = true;
+            this.rbtrue.Text = "true";
+            this.rbtrue.UseVisualStyleBackColor = true;
+            this.rbtrue.CheckedChanged += new System.EventHandler(this.radioButtonTrainedInfo_Checked);
+            // 
+            // btnLoad
+            // 
+            this.btnLoad.FlatAppearance.BorderColor = System.Drawing.Color.Indigo;
+            this.btnLoad.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLoad.Font = new System.Drawing.Font("Tahoma", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnLoad.Location = new System.Drawing.Point(109, 21);
+            this.btnLoad.Name = "btnLoad";
+            this.btnLoad.Size = new System.Drawing.Size(82, 67);
+            this.btnLoad.TabIndex = 5;
+            this.btnLoad.Text = "Load";
+            this.btnLoad.UseVisualStyleBackColor = true;
+            // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.ItemHeight = 16;
+            this.listBox1.Location = new System.Drawing.Point(683, 366);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(258, 132);
+            this.listBox1.TabIndex = 7;
+            // 
             // frmfacerec
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1114, 677);
+            this.Controls.Add(this.listBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
@@ -261,9 +272,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.imageBLiveCamera)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
             this.grpbAutoCapture.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numupdautocapturems)).EndInit();
+            this.groupBox2.ResumeLayout(false);
             this.gruopTrained.ResumeLayout(false);
             this.gruopTrained.PerformLayout();
             this.ResumeLayout(false);
@@ -291,6 +302,7 @@
         private System.Windows.Forms.GroupBox gruopTrained;
         private System.Windows.Forms.RadioButton rbfalse;
         private System.Windows.Forms.RadioButton rbtrue;
+        private System.Windows.Forms.ListBox listBox1;
     }
 }
 
