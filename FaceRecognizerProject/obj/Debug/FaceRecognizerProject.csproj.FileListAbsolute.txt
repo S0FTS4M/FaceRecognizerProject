@@ -9,3 +9,4 @@ C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\obj\Debu
 C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\obj\Debug\FaceRecognizerProject.exe
 C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\obj\Debug\FaceRecognizerProject.pdb
 C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\obj\Debug\FaceRecognizerProject.frmfacerec.resources
+C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\obj\Debug\FaceRecognizerProject.CameraSelector.resources

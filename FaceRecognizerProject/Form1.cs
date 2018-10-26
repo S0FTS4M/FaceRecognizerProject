@@ -46,6 +46,8 @@ namespace FaceRecognizerProject
         //all settings are ready for capturing face? like does this person have a name
         private bool canCapture = false;
 
+
+        bool isAnyCamActive=false;
         //training phase
         //TODO: Save these names with recognizer and load after
         List<string> listOfFileNames = new List<string>();
@@ -53,11 +55,7 @@ namespace FaceRecognizerProject
         public frmfacerec()
         {
             InitializeComponent();
-            capture = new Capture();
-            //start timer and start capturing images
-            timerCameraFramer.Start();
-            //for fps counting
-            stopwatch.Start();
+            
         }
 
         private void timerCameraFramer_Tick(object sender, EventArgs e)
@@ -233,6 +231,8 @@ namespace FaceRecognizerProject
 
             //});
             #endregion
+
+            tsmiwebcam.PerformClick();
         }
 
         private void btnTrain_Click(object sender, EventArgs e)
@@ -316,6 +316,50 @@ namespace FaceRecognizerProject
         {
             if (((RadioButton)sender).Text == "true")
                 modeltrained = true;
+        }
+
+        private void tsmiwebcam_Click(object sender, EventArgs e)
+        {
+            if (isAnyCamActive == false)
+            {
+                capture = new Capture();
+                
+                //start timer and start capturing images
+                timerCameraFramer.Start();
+                //for fps counting
+                stopwatch.Start();
+
+                isAnyCamActive = true;
+            }
+        }
+
+        private void tsmiIndex_Click(object sender, EventArgs e)
+        {
+            CameraSelector cameraSelector = new CameraSelector(CameraType.INDEXED);
+            cameraSelector.GetCamInfoEvent += CameraSelectorIndexed_GetCamInfoEvent;
+            cameraSelector.ShowDialog();
+        }
+
+        private void CameraSelectorIndexed_GetCamInfoEvent(List<CameraInfo> camInfos)
+        {
+            //Create Capture object and give it the right info
+            //we will get only one object here
+        }
+
+        private void tsmiaddCamera_Click(object sender, EventArgs e)
+        {
+            CameraSelector cameraSelector = new CameraSelector(CameraType.IP_CAMERA);
+            cameraSelector.GetCamInfoEvent += CameraSelectorIPCam_GetCamInfoEvent;
+            cameraSelector.ShowDialog();
+        }
+
+        private void CameraSelectorIPCam_GetCamInfoEvent(List<CameraInfo> infoList)
+        {
+            //Create Capture object and give it the right info
+            //we can have a list of items here so loop over every one and create a grid for this
+            //cameraCapture = new Capture("http://user:passwd@http://169.254.255.253") example
+            //we will have a list but for the Alpha we will use only 1
+
         }
     }
 }

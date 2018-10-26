@@ -48,19 +48,27 @@
             this.rbtrue = new System.Windows.Forms.RadioButton();
             this.btnLoad = new System.Windows.Forms.Button();
             this.listBox1 = new System.Windows.Forms.ListBox();
+            this.menuStrip2 = new System.Windows.Forms.MenuStrip();
+            this.cameraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiwebcam = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiIndex = new System.Windows.Forms.ToolStripMenuItem();
+            this.ıpCameraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiaddCamera = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.imageBLiveCamera)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.grpbAutoCapture.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numupdautocapturems)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.gruopTrained.SuspendLayout();
+            this.menuStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // imageBLiveCamera
             // 
-            this.imageBLiveCamera.Location = new System.Drawing.Point(12, 12);
+            this.imageBLiveCamera.FunctionalMode = Emgu.CV.UI.ImageBox.FunctionalModeOption.Minimum;
+            this.imageBLiveCamera.Location = new System.Drawing.Point(12, 56);
             this.imageBLiveCamera.Name = "imageBLiveCamera";
-            this.imageBLiveCamera.Size = new System.Drawing.Size(640, 640);
+            this.imageBLiveCamera.Size = new System.Drawing.Size(708, 640);
             this.imageBLiveCamera.TabIndex = 2;
             this.imageBLiveCamera.TabStop = false;
             // 
@@ -72,9 +80,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(1056, 9);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.label1.Location = new System.Drawing.Point(640, 28);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(46, 17);
+            this.label1.Size = new System.Drawing.Size(68, 25);
             this.label1.TabIndex = 3;
             this.label1.Text = "FPS:0";
             // 
@@ -99,7 +108,7 @@
             this.groupBox1.Controls.Add(this.chcBautoCapture);
             this.groupBox1.Controls.Add(this.btnCapture);
             this.groupBox1.Controls.Add(this.txtpersonname);
-            this.groupBox1.Location = new System.Drawing.Point(669, 12);
+            this.groupBox1.Location = new System.Drawing.Point(752, 51);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(296, 203);
             this.groupBox1.TabIndex = 5;
@@ -192,7 +201,7 @@
             this.groupBox2.Controls.Add(this.btnLoad);
             this.groupBox2.Controls.Add(this.btnTrain);
             this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.groupBox2.Location = new System.Drawing.Point(669, 253);
+            this.groupBox2.Location = new System.Drawing.Point(752, 292);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(304, 94);
             this.groupBox2.TabIndex = 6;
@@ -251,22 +260,75 @@
             // 
             this.listBox1.FormattingEnabled = true;
             this.listBox1.ItemHeight = 16;
-            this.listBox1.Location = new System.Drawing.Point(683, 366);
+            this.listBox1.Location = new System.Drawing.Point(766, 405);
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(258, 132);
             this.listBox1.TabIndex = 7;
+            this.listBox1.Visible = false;
+            // 
+            // menuStrip2
+            // 
+            this.menuStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.menuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cameraToolStripMenuItem});
+            this.menuStrip2.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip2.Name = "menuStrip2";
+            this.menuStrip2.Size = new System.Drawing.Size(1114, 28);
+            this.menuStrip2.TabIndex = 9;
+            this.menuStrip2.Text = "menuStrip2";
+            // 
+            // cameraToolStripMenuItem
+            // 
+            this.cameraToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiwebcam,
+            this.tsmiIndex,
+            this.ıpCameraToolStripMenuItem});
+            this.cameraToolStripMenuItem.Name = "cameraToolStripMenuItem";
+            this.cameraToolStripMenuItem.Size = new System.Drawing.Size(72, 24);
+            this.cameraToolStripMenuItem.Text = "Camera";
+            // 
+            // tsmiwebcam
+            // 
+            this.tsmiwebcam.Name = "tsmiwebcam";
+            this.tsmiwebcam.Size = new System.Drawing.Size(152, 26);
+            this.tsmiwebcam.Text = "Webcam";
+            this.tsmiwebcam.Click += new System.EventHandler(this.tsmiwebcam_Click);
+            // 
+            // tsmiIndex
+            // 
+            this.tsmiIndex.Name = "tsmiIndex";
+            this.tsmiIndex.Size = new System.Drawing.Size(152, 26);
+            this.tsmiIndex.Text = "Index";
+            this.tsmiIndex.Click += new System.EventHandler(this.tsmiIndex_Click);
+            // 
+            // ıpCameraToolStripMenuItem
+            // 
+            this.ıpCameraToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiaddCamera});
+            this.ıpCameraToolStripMenuItem.Name = "ıpCameraToolStripMenuItem";
+            this.ıpCameraToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
+            this.ıpCameraToolStripMenuItem.Text = "Ip Camera";
+            // 
+            // tsmiaddCamera
+            // 
+            this.tsmiaddCamera.Name = "tsmiaddCamera";
+            this.tsmiaddCamera.Size = new System.Drawing.Size(167, 26);
+            this.tsmiaddCamera.Text = "Add Camera";
+            this.tsmiaddCamera.Click += new System.EventHandler(this.tsmiaddCamera_Click);
             // 
             // frmfacerec
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1114, 677);
+            this.ClientSize = new System.Drawing.Size(1114, 719);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.imageBLiveCamera);
+            this.Controls.Add(this.menuStrip2);
             this.Name = "frmfacerec";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Face Detection and Recognition";
             this.Load += new System.EventHandler(this.frmfacerec_Load);
             ((System.ComponentModel.ISupportInitialize)(this.imageBLiveCamera)).EndInit();
@@ -277,6 +339,8 @@
             this.groupBox2.ResumeLayout(false);
             this.gruopTrained.ResumeLayout(false);
             this.gruopTrained.PerformLayout();
+            this.menuStrip2.ResumeLayout(false);
+            this.menuStrip2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -303,6 +367,12 @@
         private System.Windows.Forms.RadioButton rbfalse;
         private System.Windows.Forms.RadioButton rbtrue;
         private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.MenuStrip menuStrip2;
+        private System.Windows.Forms.ToolStripMenuItem cameraToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tsmiwebcam;
+        private System.Windows.Forms.ToolStripMenuItem tsmiIndex;
+        private System.Windows.Forms.ToolStripMenuItem ıpCameraToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tsmiaddCamera;
     }
 }
 
