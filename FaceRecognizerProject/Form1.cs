@@ -8,6 +8,7 @@ using Emgu.CV.CvEnum;
 using System.Diagnostics;
 using System.IO;
 using static Emgu.CV.FaceRecognizer;
+using Emgu.CV.UI;
 
 namespace FaceRecognizerProject
 {
@@ -15,16 +16,17 @@ namespace FaceRecognizerProject
     {
         //Capture will access the camera and reads the stream
         private static CascadeClassifier classifier = new CascadeClassifier(@"haarcascade_frontalface_alt_tree.xml");
-        
+
         //Recognizer Algorithm
         FaceRecognizer faceRecognizer = new LBPHFaceRecognizer(1, 8, 8, 8, 100.0);
         //The text font that we write the person name
         MCvFont mCvFont = new MCvFont(FONT.CV_FONT_HERSHEY_TRIPLEX, 1.0, 1.0);
-        
+
+
 
         //random numbers for file names
         Random random = new Random();
-        
+
         //FPS Counter
         Stopwatch stopwatch = new Stopwatch();
         int fps = 0;
@@ -33,6 +35,8 @@ namespace FaceRecognizerProject
         /// Capture Vars
         /// </summary>
         //gets camera stream as images
+        //there will be a capture list because we will have a list of cameras but for now we are not worried about this
+        //we just need to access only 1 camera
         Capture capture;
         //The original image we read from cam
         Image<Bgr, byte> capturedImage = null;
@@ -47,7 +51,7 @@ namespace FaceRecognizerProject
         private bool canCapture = false;
 
 
-        bool isAnyCamActive=false;
+        bool isAnyCamActive = false;
         //training phase
         //TODO: Save these names with recognizer and load after
         List<string> listOfFileNames = new List<string>();
@@ -55,14 +59,14 @@ namespace FaceRecognizerProject
         public frmfacerec()
         {
             InitializeComponent();
-            
+
         }
 
         private void timerCameraFramer_Tick(object sender, EventArgs e)
         {
             //reset canCapture every frame
             canCapture = false;
-         ///FPS counter start
+            ///FPS counter start
             fps++;
             if (stopwatch.ElapsedMilliseconds >= 1000)
             {
@@ -72,7 +76,7 @@ namespace FaceRecognizerProject
                 stopwatch.Restart();
             }
             ///fps counter end
-            
+
             ///read from cam and get the 3 channel image
             capturedImage = capture.QueryFrame();
             //if we didnt train the model we just can detect the face
@@ -126,9 +130,14 @@ namespace FaceRecognizerProject
                 //show capturing info
                 lblCapturingInfo.Text = info;
                 lblCapturingInfo.ForeColor = foreColor;
-                
+
+
+                foreach (var item in grid.ControlsList)
+                {
+                    (item as ImageBox).Image = foundFaceRect;
+                }
                 //show the image with rectangled face on it
-                imageBLiveCamera.Image = foundFaceRect;
+                //imageBLiveCamera.Image = foundFaceRect;
             }
             //if model trained then we need to predict who is it
             if (modeltrained == true)
@@ -155,6 +164,7 @@ namespace FaceRecognizerProject
                 try
                 {
                     result = faceRecognizer.Predict(grayImage.Copy(rect));
+
                 }
                 catch
                 {
@@ -178,7 +188,10 @@ namespace FaceRecognizerProject
                     capturedImage.Draw("Unknown", ref mCvFont, new Point(rect.X + 4, rect.Y + rect.Height + 15), new Bgr(Color.White));
                 }
             }
-            imageBLiveCamera.Image = capturedImage;
+            foreach (var item in grid.ControlsList)
+            {
+                (item as ImageBox).Image = capturedImage;
+            }
         }
 
         private Tuple<Image<Bgr, byte>, Image<Gray, byte>> DetectedFace(Image<Bgr, byte> _image)
@@ -208,7 +221,7 @@ namespace FaceRecognizerProject
             //return rectabgled image and gray scaled face image
             return new Tuple<Image<Bgr, byte>, Image<Gray, byte>>(_image, face);
         }
-
+        Grid grid;
         private void frmfacerec_Load(object sender, EventArgs e)
         {
             #region AppIdle Event 30FPS
@@ -232,6 +245,11 @@ namespace FaceRecognizerProject
             //});
             #endregion
 
+            ///Testing
+
+            ///
+
+            ///Testing
             tsmiwebcam.PerformClick();
         }
 
@@ -270,9 +288,22 @@ namespace FaceRecognizerProject
                 faceRecognizer.Train(faceImagesList.ToArray(), labels.ToArray());
                 gruopTrained.Enabled = modeltrained = true;
                 listBox1.Items.AddRange(listOfFileNames.ToArray());
+
+                faceRecognizer.Save("trainedData.xml");
+
             }
         }
-
+        private void BtnLoad_Click(object sender, System.EventArgs e)
+        {
+            faceRecognizer = new LBPHFaceRecognizer(1, 8, 8, 8, 100.0);
+            if (File.Exists("trainedData.xml"))
+            {
+                modeltrained = true;
+                faceRecognizer.Load("trainedData.xml");
+            }
+            else
+                MessageBox.Show("you didnt train the model. Press train button!");
+        }
         private void chcBautoCapture_CheckedChanged(object sender, EventArgs e)
         {
             autoCapture = grpbAutoCapture.Visible = chcBautoCapture.Checked;
@@ -287,7 +318,7 @@ namespace FaceRecognizerProject
                 MessageBox.Show("there should be a person name");
                 return;
             }
-            
+
             Image<Bgr, byte> foundFace = DetectedFace(capturedImage.Clone()).Item1;
             if (canCapture)
             {
@@ -320,10 +351,13 @@ namespace FaceRecognizerProject
 
         private void tsmiwebcam_Click(object sender, EventArgs e)
         {
+            //there will be only one cam no need for grid
             if (isAnyCamActive == false)
             {
                 capture = new Capture();
-                
+
+                grid = new Grid(1, 1, ControlTyte.ImageBox);
+                this.Controls.Add(grid);
                 //start timer and start capturing images
                 timerCameraFramer.Start();
                 //for fps counting
@@ -344,6 +378,12 @@ namespace FaceRecognizerProject
         {
             //Create Capture object and give it the right info
             //we will get only one object here
+            //there will be only one cam no need for grid
+
+            capture = new Capture(camInfos[0].camIndex);
+            timerCameraFramer.Start();
+            grid = new Grid(1, 1, ControlTyte.ImageBox);
+            this.Controls.Add(grid);
         }
 
         private void tsmiaddCamera_Click(object sender, EventArgs e)
@@ -358,7 +398,17 @@ namespace FaceRecognizerProject
             //Create Capture object and give it the right info
             //we can have a list of items here so loop over every one and create a grid for this
             //cameraCapture = new Capture("http://user:passwd@http://169.254.255.253") example
-            //we will have a list but for the Alpha we will use only 1
+            //we will have a list but for the Alpha V. we will use only 1
+
+            ///for testing
+            capture = new Capture(string.Format("http://{0}:{1}@{2}", infoList[0].UserName, infoList[0].Password, infoList[0].IP));
+
+            //create grid
+            grid = new Grid(1, 1, ControlTyte.ImageBox);
+            this.Controls.Add(grid);
+
+            timerCameraFramer.Start();
+
 
         }
     }

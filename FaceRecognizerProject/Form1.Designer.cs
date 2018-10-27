@@ -71,6 +71,7 @@
             this.imageBLiveCamera.Size = new System.Drawing.Size(708, 640);
             this.imageBLiveCamera.TabIndex = 2;
             this.imageBLiveCamera.TabStop = false;
+            this.imageBLiveCamera.Visible = false;
             // 
             // timerCameraFramer
             // 
@@ -254,6 +255,7 @@
             this.btnLoad.Size = new System.Drawing.Size(82, 67);
             this.btnLoad.TabIndex = 5;
             this.btnLoad.Text = "Load";
+            this.btnLoad.Click += BtnLoad_Click;
             this.btnLoad.UseVisualStyleBackColor = true;
             // 
             // listBox1
@@ -345,6 +347,8 @@
             this.PerformLayout();
 
         }
+
+       
 
         #endregion
 

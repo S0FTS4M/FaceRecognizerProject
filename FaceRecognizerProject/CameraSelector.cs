@@ -55,12 +55,12 @@ namespace FaceRecognizerProject
                     cameraInfo.camIndex = (int)numupdownIndex.Value;
                     cameraInfo.CameraType = CameraType.INDEXED;
                     cameraInfos.Add(cameraInfo);
-                    GetCamInfoEvent(cameraInfos);
+                    GetCamInfoEvent?.Invoke(cameraInfos);
                     break;
                 case CameraType.IP_CAMERA:
 
 
-                    GetCamInfoEvent(cameraInfos);
+                    GetCamInfoEvent?.Invoke(cameraInfos);
                     break;
                 default:
                     break;
