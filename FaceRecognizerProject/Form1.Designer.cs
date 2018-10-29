@@ -255,7 +255,6 @@
             this.btnLoad.Size = new System.Drawing.Size(82, 67);
             this.btnLoad.TabIndex = 5;
             this.btnLoad.Text = "Load";
-            this.btnLoad.Click += BtnLoad_Click;
             this.btnLoad.UseVisualStyleBackColor = true;
             // 
             // listBox1
@@ -332,6 +331,7 @@
             this.Name = "frmfacerec";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Face Detection and Recognition";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmfacerec_FormClosing);
             this.Load += new System.EventHandler(this.frmfacerec_Load);
             ((System.ComponentModel.ISupportInitialize)(this.imageBLiveCamera)).EndInit();
             this.groupBox1.ResumeLayout(false);

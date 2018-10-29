@@ -9,11 +9,12 @@ using System.Diagnostics;
 using System.IO;
 using static Emgu.CV.FaceRecognizer;
 using Emgu.CV.UI;
-
+using AForge.Video;
 namespace FaceRecognizerProject
 {
     public partial class frmfacerec : Form
     {
+        MJPEGStream jPEGStream;
         //Capture will access the camera and reads the stream
         private static CascadeClassifier classifier = new CascadeClassifier(@"haarcascade_frontalface_alt_tree.xml");
 
@@ -50,7 +51,7 @@ namespace FaceRecognizerProject
         //all settings are ready for capturing face? like does this person have a name
         private bool canCapture = false;
 
-
+        bool ipCamActive = false;
         bool isAnyCamActive = false;
         //training phase
         //TODO: Save these names with recognizer and load after
@@ -60,12 +61,15 @@ namespace FaceRecognizerProject
         {
             InitializeComponent();
 
+
         }
+
 
         private void timerCameraFramer_Tick(object sender, EventArgs e)
         {
             //reset canCapture every frame
             canCapture = false;
+            
             ///FPS counter start
             fps++;
             if (stopwatch.ElapsedMilliseconds >= 1000)
@@ -74,11 +78,19 @@ namespace FaceRecognizerProject
                 label1.Text = "FPS: " + fps.ToString();
                 fps = 0;
                 stopwatch.Restart();
+            
             }
             ///fps counter end
+            if (ipCamActive == false)
+                ///read from cam and get the 3 channel image
+                capturedImage = capture.QueryFrame();
+            else
+                capturedImage = (Image<Bgr,byte>)((ImageBox)grid.ControlsList[0]).Image;
 
-            ///read from cam and get the 3 channel image
-            capturedImage = capture.QueryFrame();
+            if (capturedImage == null)
+                return;
+
+
             //if we didnt train the model we just can detect the face
             if (modeltrained == false)
             {
@@ -250,7 +262,7 @@ namespace FaceRecognizerProject
             ///
 
             ///Testing
-            tsmiwebcam.PerformClick();
+            //tsmiwebcam.PerformClick();
         }
 
         private void btnTrain_Click(object sender, EventArgs e)
@@ -400,16 +412,36 @@ namespace FaceRecognizerProject
             //cameraCapture = new Capture("http://user:passwd@http://169.254.255.253") example
             //we will have a list but for the Alpha V. we will use only 1
 
+            #region DifferentApproach
             ///for testing
-            capture = new Capture(string.Format("http://{0}:{1}@{2}", infoList[0].UserName, infoList[0].Password, infoList[0].IP));
+            //capture = new Capture(" http://192.168.1.100:4747/video");//string.Format("http://{0}:{1}@{2}", infoList[0].UserName, infoList[0].Password, infoList[0].IP));
+            // IntPtr _capture = Emgu.CV.CvInvoke.cvCreateFileCapture("http://username:pass@http://192.168.1.100:8080/axis-cgi/mjpg/video.cgi?resolution=640x480&req_fps=30&.mjpg");
+            #endregion
 
+            jPEGStream = new MJPEGStream(infoList[0].IP);
+            jPEGStream.NewFrame += JPEGStream_NewFrame;
+            jPEGStream.Start();
             //create grid
             grid = new Grid(1, 1, ControlTyte.ImageBox);
             this.Controls.Add(grid);
-
+            ipCamActive = true;
             timerCameraFramer.Start();
+            stopwatch.Start();
 
 
+        }
+        private void JPEGStream_NewFrame(object sender, NewFrameEventArgs eventArgs)
+        {
+            Bitmap bitmap = (Bitmap)eventArgs.Frame.Clone();
+            ((ImageBox)grid.ControlsList[0]).Image = new Image<Bgr, byte>(bitmap);
+
+        }
+
+        private void frmfacerec_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if(jPEGStream!=null)
+            jPEGStream.Stop();
+            
         }
     }
 }

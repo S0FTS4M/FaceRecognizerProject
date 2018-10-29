@@ -40,6 +40,7 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.GrpIndex = new System.Windows.Forms.GroupBox();
             this.numupdownIndex = new System.Windows.Forms.NumericUpDown();
+            this.btnExampleIP = new System.Windows.Forms.Button();
             this.grpIpCam.SuspendLayout();
             this.GrpIndex.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numupdownIndex)).BeginInit();
@@ -47,6 +48,7 @@
             // 
             // grpIpCam
             // 
+            this.grpIpCam.Controls.Add(this.btnExampleIP);
             this.grpIpCam.Controls.Add(this.btnIpCamAddList);
             this.grpIpCam.Controls.Add(this.btnSave);
             this.grpIpCam.Controls.Add(this.label3);
@@ -57,7 +59,7 @@
             this.grpIpCam.Controls.Add(this.txtUsername);
             this.grpIpCam.Location = new System.Drawing.Point(12, 12);
             this.grpIpCam.Name = "grpIpCam";
-            this.grpIpCam.Size = new System.Drawing.Size(298, 221);
+            this.grpIpCam.Size = new System.Drawing.Size(487, 221);
             this.grpIpCam.TabIndex = 1;
             this.grpIpCam.TabStop = false;
             this.grpIpCam.Text = "Ip Camera";
@@ -68,9 +70,9 @@
             this.btnIpCamAddList.FlatAppearance.BorderSize = 2;
             this.btnIpCamAddList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnIpCamAddList.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnIpCamAddList.Location = new System.Drawing.Point(132, 164);
+            this.btnIpCamAddList.Location = new System.Drawing.Point(172, 165);
             this.btnIpCamAddList.Name = "btnIpCamAddList";
-            this.btnIpCamAddList.Size = new System.Drawing.Size(132, 44);
+            this.btnIpCamAddList.Size = new System.Drawing.Size(136, 44);
             this.btnIpCamAddList.TabIndex = 4;
             this.btnIpCamAddList.Text = "Add To List";
             this.btnIpCamAddList.UseVisualStyleBackColor = true;
@@ -82,9 +84,9 @@
             this.btnSave.FlatAppearance.BorderSize = 2;
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnSave.Location = new System.Drawing.Point(29, 164);
+            this.btnSave.Location = new System.Drawing.Point(14, 165);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(97, 44);
+            this.btnSave.Size = new System.Drawing.Size(136, 44);
             this.btnSave.TabIndex = 3;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -105,7 +107,7 @@
             this.txtIP.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.txtIP.Location = new System.Drawing.Point(66, 32);
             this.txtIP.Name = "txtIP";
-            this.txtIP.Size = new System.Drawing.Size(185, 30);
+            this.txtIP.Size = new System.Drawing.Size(415, 30);
             this.txtIP.TabIndex = 0;
             // 
             // label2
@@ -133,7 +135,7 @@
             this.txtpwd.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.txtpwd.Location = new System.Drawing.Point(66, 122);
             this.txtpwd.Name = "txtpwd";
-            this.txtpwd.Size = new System.Drawing.Size(185, 30);
+            this.txtpwd.Size = new System.Drawing.Size(415, 30);
             this.txtpwd.TabIndex = 2;
             // 
             // txtUsername
@@ -141,7 +143,7 @@
             this.txtUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.txtUsername.Location = new System.Drawing.Point(66, 77);
             this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(185, 30);
+            this.txtUsername.Size = new System.Drawing.Size(415, 30);
             this.txtUsername.TabIndex = 1;
             // 
             // btnAdd
@@ -150,7 +152,7 @@
             this.btnAdd.FlatAppearance.BorderSize = 2;
             this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnAdd.Location = new System.Drawing.Point(316, 163);
+            this.btnAdd.Location = new System.Drawing.Point(505, 163);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(156, 70);
             this.btnAdd.TabIndex = 5;
@@ -161,7 +163,7 @@
             // GrpIndex
             // 
             this.GrpIndex.Controls.Add(this.numupdownIndex);
-            this.GrpIndex.Location = new System.Drawing.Point(316, 12);
+            this.GrpIndex.Location = new System.Drawing.Point(505, 12);
             this.GrpIndex.Name = "GrpIndex";
             this.GrpIndex.Size = new System.Drawing.Size(156, 135);
             this.GrpIndex.TabIndex = 6;
@@ -176,11 +178,25 @@
             this.numupdownIndex.Size = new System.Drawing.Size(120, 38);
             this.numupdownIndex.TabIndex = 0;
             // 
+            // btnExampleIP
+            // 
+            this.btnExampleIP.FlatAppearance.BorderColor = System.Drawing.Color.DarkBlue;
+            this.btnExampleIP.FlatAppearance.BorderSize = 2;
+            this.btnExampleIP.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExampleIP.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnExampleIP.Location = new System.Drawing.Point(330, 165);
+            this.btnExampleIP.Name = "btnExampleIP";
+            this.btnExampleIP.Size = new System.Drawing.Size(136, 44);
+            this.btnExampleIP.TabIndex = 6;
+            this.btnExampleIP.Text = "Example IP";
+            this.btnExampleIP.UseVisualStyleBackColor = true;
+            this.btnExampleIP.Click += new System.EventHandler(this.btnExampleIP_Click);
+            // 
             // CameraSelector
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(488, 268);
+            this.ClientSize = new System.Drawing.Size(673, 308);
             this.Controls.Add(this.GrpIndex);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.grpIpCam);
@@ -210,5 +226,6 @@
         private System.Windows.Forms.GroupBox GrpIndex;
         private System.Windows.Forms.NumericUpDown numupdownIndex;
         private System.Windows.Forms.Button btnIpCamAddList;
+        private System.Windows.Forms.Button btnExampleIP;
     }
 }

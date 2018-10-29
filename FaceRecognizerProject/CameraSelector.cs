@@ -25,6 +25,7 @@ namespace FaceRecognizerProject
 
         public CameraSelector(CameraType _cameraType)
         {
+            cameraInfos = new List<CameraInfo>();
             cameraType = _cameraType;
 
             InitializeComponent();
@@ -46,6 +47,11 @@ namespace FaceRecognizerProject
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
+            if(cameraInfos==null || cameraInfos.Count==0)
+            {
+                MessageBox.Show("You should add at least one cam.");
+                return;
+            }
             CameraInfo cameraInfo = new CameraInfo();
             switch (cameraType)
             {
@@ -65,6 +71,7 @@ namespace FaceRecognizerProject
                 default:
                     break;
             }
+            this.Hide();
         }
 
         private void btnIpCamAddList_Click(object sender, EventArgs e)
@@ -83,6 +90,11 @@ namespace FaceRecognizerProject
         {
             //save all list of ip based cameras with all info
             MessageBox.Show("It is not available for Alpha");
+        }
+
+        private void btnExampleIP_Click(object sender, EventArgs e)
+        {
+            txtIP.Text = "http://192.168.1.100:4747/mjpegfeed?640x480";
         }
     }
 }

@@ -11,3 +11,7 @@ C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\obj\Debu
 C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\obj\Debug\FaceRecognizerProject.frmfacerec.resources
 C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\obj\Debug\FaceRecognizerProject.CameraSelector.resources
 C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\obj\Debug\FaceRecognizerProject.Grid.resources
+C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\bin\Debug\AForge.dll
+C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\bin\Debug\AForge.Video.dll
+C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\bin\Debug\AForge.xml
+C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\bin\Debug\AForge.Video.xml
