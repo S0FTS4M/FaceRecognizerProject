@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.grpIpCam = new System.Windows.Forms.GroupBox();
+            this.btnExampleIP = new System.Windows.Forms.Button();
             this.btnIpCamAddList = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
@@ -40,7 +41,7 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.GrpIndex = new System.Windows.Forms.GroupBox();
             this.numupdownIndex = new System.Windows.Forms.NumericUpDown();
-            this.btnExampleIP = new System.Windows.Forms.Button();
+            this.chcshowHide = new System.Windows.Forms.CheckBox();
             this.grpIpCam.SuspendLayout();
             this.GrpIndex.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numupdownIndex)).BeginInit();
@@ -48,6 +49,7 @@
             // 
             // grpIpCam
             // 
+            this.grpIpCam.Controls.Add(this.chcshowHide);
             this.grpIpCam.Controls.Add(this.btnExampleIP);
             this.grpIpCam.Controls.Add(this.btnIpCamAddList);
             this.grpIpCam.Controls.Add(this.btnSave);
@@ -63,6 +65,20 @@
             this.grpIpCam.TabIndex = 1;
             this.grpIpCam.TabStop = false;
             this.grpIpCam.Text = "Ip Camera";
+            // 
+            // btnExampleIP
+            // 
+            this.btnExampleIP.FlatAppearance.BorderColor = System.Drawing.Color.DarkBlue;
+            this.btnExampleIP.FlatAppearance.BorderSize = 2;
+            this.btnExampleIP.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExampleIP.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnExampleIP.Location = new System.Drawing.Point(330, 165);
+            this.btnExampleIP.Name = "btnExampleIP";
+            this.btnExampleIP.Size = new System.Drawing.Size(136, 44);
+            this.btnExampleIP.TabIndex = 6;
+            this.btnExampleIP.Text = "Example IP";
+            this.btnExampleIP.UseVisualStyleBackColor = true;
+            this.btnExampleIP.Click += new System.EventHandler(this.btnExampleIP_Click);
             // 
             // btnIpCamAddList
             // 
@@ -135,8 +151,9 @@
             this.txtpwd.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.txtpwd.Location = new System.Drawing.Point(66, 122);
             this.txtpwd.Name = "txtpwd";
-            this.txtpwd.Size = new System.Drawing.Size(415, 30);
+            this.txtpwd.Size = new System.Drawing.Size(301, 30);
             this.txtpwd.TabIndex = 2;
+            this.txtpwd.UseSystemPasswordChar = true;
             // 
             // txtUsername
             // 
@@ -178,19 +195,18 @@
             this.numupdownIndex.Size = new System.Drawing.Size(120, 38);
             this.numupdownIndex.TabIndex = 0;
             // 
-            // btnExampleIP
+            // chcshowHide
             // 
-            this.btnExampleIP.FlatAppearance.BorderColor = System.Drawing.Color.DarkBlue;
-            this.btnExampleIP.FlatAppearance.BorderSize = 2;
-            this.btnExampleIP.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnExampleIP.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnExampleIP.Location = new System.Drawing.Point(330, 165);
-            this.btnExampleIP.Name = "btnExampleIP";
-            this.btnExampleIP.Size = new System.Drawing.Size(136, 44);
-            this.btnExampleIP.TabIndex = 6;
-            this.btnExampleIP.Text = "Example IP";
-            this.btnExampleIP.UseVisualStyleBackColor = true;
-            this.btnExampleIP.Click += new System.EventHandler(this.btnExampleIP_Click);
+            this.chcshowHide.AutoSize = true;
+            this.chcshowHide.Checked = true;
+            this.chcshowHide.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chcshowHide.Location = new System.Drawing.Point(373, 125);
+            this.chcshowHide.Name = "chcshowHide";
+            this.chcshowHide.Size = new System.Drawing.Size(97, 21);
+            this.chcshowHide.TabIndex = 7;
+            this.chcshowHide.Text = "Show/Hide";
+            this.chcshowHide.UseVisualStyleBackColor = true;
+            this.chcshowHide.CheckedChanged += new System.EventHandler(this.chcshowHide_CheckedChanged);
             // 
             // CameraSelector
             // 
@@ -227,5 +243,6 @@
         private System.Windows.Forms.NumericUpDown numupdownIndex;
         private System.Windows.Forms.Button btnIpCamAddList;
         private System.Windows.Forms.Button btnExampleIP;
+        private System.Windows.Forms.CheckBox chcshowHide;
     }
 }

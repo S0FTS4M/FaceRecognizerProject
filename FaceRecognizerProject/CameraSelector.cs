@@ -89,12 +89,19 @@ namespace FaceRecognizerProject
         private void btnSave_Click(object sender, EventArgs e)
         {
             //save all list of ip based cameras with all info
-            MessageBox.Show("It is not available for Alpha");
+            MessageBox.Show("It is not available for now!!!");
         }
 
         private void btnExampleIP_Click(object sender, EventArgs e)
         {
-            txtIP.Text = "http://192.168.1.100:4747/mjpegfeed?640x480";
+            txtIP.Text = "http://192.168.1.101:4747/mjpegfeed?640x480";
+            txtUsername.Text = "softsam";
+            txtpwd.Text = "softsam";
+        }
+
+        private void chcshowHide_CheckedChanged(object sender, EventArgs e)
+        {
+            txtpwd.UseSystemPasswordChar = chcshowHide.Checked;
         }
     }
 }

@@ -1,0 +1,4 @@
+[ ]Multiple IP camera addition
+[ ]find faces in every one of them
+[ ]save and load ip camera infos for later
+ 

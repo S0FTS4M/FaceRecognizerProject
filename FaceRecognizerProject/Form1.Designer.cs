@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.imageBLiveCamera = new Emgu.CV.UI.ImageBox();
             this.timerCameraFramer = new System.Windows.Forms.Timer(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.btnTrain = new System.Windows.Forms.Button();
@@ -54,7 +53,8 @@
             this.tsmiIndex = new System.Windows.Forms.ToolStripMenuItem();
             this.ıpCameraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiaddCamera = new System.Windows.Forms.ToolStripMenuItem();
-            ((System.ComponentModel.ISupportInitialize)(this.imageBLiveCamera)).BeginInit();
+            this.chcRotation = new System.Windows.Forms.CheckBox();
+            this.cmbRotation = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.grpbAutoCapture.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numupdautocapturems)).BeginInit();
@@ -62,16 +62,6 @@
             this.gruopTrained.SuspendLayout();
             this.menuStrip2.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // imageBLiveCamera
-            // 
-            this.imageBLiveCamera.FunctionalMode = Emgu.CV.UI.ImageBox.FunctionalModeOption.Minimum;
-            this.imageBLiveCamera.Location = new System.Drawing.Point(12, 56);
-            this.imageBLiveCamera.Name = "imageBLiveCamera";
-            this.imageBLiveCamera.Size = new System.Drawing.Size(708, 640);
-            this.imageBLiveCamera.TabIndex = 2;
-            this.imageBLiveCamera.TabStop = false;
-            this.imageBLiveCamera.Visible = false;
             // 
             // timerCameraFramer
             // 
@@ -138,6 +128,13 @@
             // 
             // numupdautocapturems
             // 
+            this.numupdautocapturems.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.numupdautocapturems.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.numupdautocapturems.Increment = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
             this.numupdautocapturems.Location = new System.Drawing.Point(3, 18);
             this.numupdautocapturems.Maximum = new decimal(new int[] {
             5000,
@@ -145,8 +142,9 @@
             0,
             0});
             this.numupdautocapturems.Name = "numupdautocapturems";
-            this.numupdautocapturems.Size = new System.Drawing.Size(120, 22);
+            this.numupdautocapturems.Size = new System.Drawing.Size(120, 25);
             this.numupdautocapturems.TabIndex = 0;
+            this.numupdautocapturems.ThousandsSeparator = true;
             this.numupdautocapturems.Value = new decimal(new int[] {
             1000,
             0,
@@ -256,12 +254,13 @@
             this.btnLoad.TabIndex = 5;
             this.btnLoad.Text = "Load";
             this.btnLoad.UseVisualStyleBackColor = true;
+            this.btnLoad.Click += new System.EventHandler(this.BtnLoad_Click);
             // 
             // listBox1
             // 
             this.listBox1.FormattingEnabled = true;
             this.listBox1.ItemHeight = 16;
-            this.listBox1.Location = new System.Drawing.Point(766, 405);
+            this.listBox1.Location = new System.Drawing.Point(1099, 477);
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(258, 132);
             this.listBox1.TabIndex = 7;
@@ -274,7 +273,7 @@
             this.cameraToolStripMenuItem});
             this.menuStrip2.Location = new System.Drawing.Point(0, 0);
             this.menuStrip2.Name = "menuStrip2";
-            this.menuStrip2.Size = new System.Drawing.Size(1114, 28);
+            this.menuStrip2.Size = new System.Drawing.Size(1084, 28);
             this.menuStrip2.TabIndex = 9;
             this.menuStrip2.Text = "menuStrip2";
             // 
@@ -291,14 +290,16 @@
             // tsmiwebcam
             // 
             this.tsmiwebcam.Name = "tsmiwebcam";
-            this.tsmiwebcam.Size = new System.Drawing.Size(152, 26);
+            this.tsmiwebcam.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
+            this.tsmiwebcam.Size = new System.Drawing.Size(216, 26);
             this.tsmiwebcam.Text = "Webcam";
             this.tsmiwebcam.Click += new System.EventHandler(this.tsmiwebcam_Click);
             // 
             // tsmiIndex
             // 
             this.tsmiIndex.Name = "tsmiIndex";
-            this.tsmiIndex.Size = new System.Drawing.Size(152, 26);
+            this.tsmiIndex.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.tsmiIndex.Size = new System.Drawing.Size(216, 26);
             this.tsmiIndex.Text = "Index";
             this.tsmiIndex.Click += new System.EventHandler(this.tsmiIndex_Click);
             // 
@@ -307,33 +308,56 @@
             this.ıpCameraToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiaddCamera});
             this.ıpCameraToolStripMenuItem.Name = "ıpCameraToolStripMenuItem";
-            this.ıpCameraToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
+            this.ıpCameraToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.ıpCameraToolStripMenuItem.Text = "Ip Camera";
             // 
             // tsmiaddCamera
             // 
             this.tsmiaddCamera.Name = "tsmiaddCamera";
-            this.tsmiaddCamera.Size = new System.Drawing.Size(167, 26);
+            this.tsmiaddCamera.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
+            this.tsmiaddCamera.Size = new System.Drawing.Size(216, 26);
             this.tsmiaddCamera.Text = "Add Camera";
             this.tsmiaddCamera.Click += new System.EventHandler(this.tsmiaddCamera_Click);
+            // 
+            // chcRotation
+            // 
+            this.chcRotation.AutoSize = true;
+            this.chcRotation.Location = new System.Drawing.Point(757, 406);
+            this.chcRotation.Name = "chcRotation";
+            this.chcRotation.Size = new System.Drawing.Size(110, 21);
+            this.chcRotation.TabIndex = 10;
+            this.chcRotation.Text = "RotateImage";
+            this.chcRotation.UseVisualStyleBackColor = true;
+            this.chcRotation.CheckedChanged += new System.EventHandler(this.chcRotation_CheckedChanged);
+            // 
+            // cmbRotation
+            // 
+            this.cmbRotation.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.cmbRotation.FormattingEnabled = true;
+            this.cmbRotation.Location = new System.Drawing.Point(873, 403);
+            this.cmbRotation.Name = "cmbRotation";
+            this.cmbRotation.Size = new System.Drawing.Size(183, 28);
+            this.cmbRotation.TabIndex = 11;
+            this.cmbRotation.Visible = false;
+            this.cmbRotation.SelectedIndexChanged += new System.EventHandler(this.cmbRotation_SelectedIndexChanged);
             // 
             // frmfacerec
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1114, 719);
+            this.ClientSize = new System.Drawing.Size(1084, 719);
+            this.Controls.Add(this.cmbRotation);
+            this.Controls.Add(this.chcRotation);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.imageBLiveCamera);
             this.Controls.Add(this.menuStrip2);
             this.Name = "frmfacerec";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Face Detection and Recognition";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmfacerec_FormClosing);
             this.Load += new System.EventHandler(this.frmfacerec_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.imageBLiveCamera)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.grpbAutoCapture.ResumeLayout(false);
@@ -351,8 +375,6 @@
        
 
         #endregion
-
-        private Emgu.CV.UI.ImageBox imageBLiveCamera;
         private System.Windows.Forms.Timer timerCameraFramer;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnTrain;
@@ -377,6 +399,8 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiIndex;
         private System.Windows.Forms.ToolStripMenuItem ıpCameraToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tsmiaddCamera;
+        private System.Windows.Forms.CheckBox chcRotation;
+        private System.Windows.Forms.ComboBox cmbRotation;
     }
 }
 

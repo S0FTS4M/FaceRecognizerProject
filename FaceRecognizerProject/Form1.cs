@@ -10,13 +10,17 @@ using System.IO;
 using static Emgu.CV.FaceRecognizer;
 using Emgu.CV.UI;
 using AForge.Video;
+using System.Linq;
 namespace FaceRecognizerProject
 {
     public partial class frmfacerec : Form
     {
+        string namesPath = "trained/listofNames.txt";
+        string trainingFilePath = "trained/trainedData.xml";
+
         MJPEGStream jPEGStream;
         //Capture will access the camera and reads the stream
-        private static CascadeClassifier classifier = new CascadeClassifier(@"haarcascade_frontalface_alt_tree.xml");
+        private static CascadeClassifier classifier = new CascadeClassifier(@"cascades/haarcascade_frontalface_alt_tree.xml");
 
         //Recognizer Algorithm
         FaceRecognizer faceRecognizer = new LBPHFaceRecognizer(1, 8, 8, 8, 100.0);
@@ -53,15 +57,37 @@ namespace FaceRecognizerProject
 
         bool ipCamActive = false;
         bool isAnyCamActive = false;
+        //if image comes with different rotation
+        bool rotateActive = false;
+        RotateFlipType rotateType = RotateFlipType.RotateNoneFlipNone;
+
         //training phase
         //TODO: Save these names with recognizer and load after
         List<string> listOfFileNames = new List<string>();
         bool modeltrained = false;
+
+        //Properties
+        public bool Modeltrained
+        {
+            get { return modeltrained; }
+            set
+            {
+                gruopTrained.Enabled = value;
+                modeltrained = value;
+            }
+        }
+
+
         public frmfacerec()
         {
             InitializeComponent();
 
+            IEnumerable<string> listOfRotateTypes = Enum.GetNames(typeof(RotateFlipType)).Where(value => value.Contains("FlipNone")).Select(
+                value => value
+                    );
+            cmbRotation.Items.AddRange(listOfRotateTypes.ToArray<string>());
 
+            cmbRotation.SelectedItem = RotateFlipType.RotateNoneFlipNone.ToString();
         }
 
 
@@ -69,7 +95,6 @@ namespace FaceRecognizerProject
         {
             //reset canCapture every frame
             canCapture = false;
-            
             ///FPS counter start
             fps++;
             if (stopwatch.ElapsedMilliseconds >= 1000)
@@ -78,21 +103,21 @@ namespace FaceRecognizerProject
                 label1.Text = "FPS: " + fps.ToString();
                 fps = 0;
                 stopwatch.Restart();
-            
+
             }
             ///fps counter end
             if (ipCamActive == false)
                 ///read from cam and get the 3 channel image
                 capturedImage = capture.QueryFrame();
             else
-                capturedImage = (Image<Bgr,byte>)((ImageBox)grid.ControlsList[0]).Image;
+                capturedImage = (Image<Bgr, byte>)((ImageBox)grid.ControlsList[0]).Image;
 
             if (capturedImage == null)
                 return;
 
 
             //if we didnt train the model we just can detect the face
-            if (modeltrained == false)
+            if (Modeltrained == false)
             {
                 //get Detected face and detected face rectangle
                 Tuple<Image<Bgr, byte>, Image<Gray, byte>> faceRectandGrayFace = DetectedFace(capturedImage.Clone());
@@ -109,7 +134,7 @@ namespace FaceRecognizerProject
                         //save captured image
                         if (canCapture)
                         {
-
+                            foundFace._EqualizeHist();
                             //save image with name and 3 other random numbers
                             SaveImage(foundFace, txtpersonname.Text + random.Next(0, 9).ToString() + random.Next(0, 9).ToString() + random.Next(0, 9).ToString());
                             //reset elapsed time
@@ -152,7 +177,7 @@ namespace FaceRecognizerProject
                 //imageBLiveCamera.Image = foundFaceRect;
             }
             //if model trained then we need to predict who is it
-            if (modeltrained == true)
+            if (Modeltrained == true)
             {
                 Guess(capturedImage);
             }
@@ -186,9 +211,9 @@ namespace FaceRecognizerProject
                 if (result.Label >= 0)
                 {
                     //draw the face rectangle
-                    capturedImage.Draw(rect, new Bgr(Color.OrangeRed), 3);
+                    capturedImage.Draw(rect, new Bgr(Color.Green), 3);
                     //draw the filled rectangle under the face rectangle
-                    capturedImage.Draw(new Rectangle(new Point(rect.X, rect.Y + rect.Height), new Size(rect.Width - 2, 20)), new Bgr(Color.OrangeRed), 20);
+                    capturedImage.Draw(new Rectangle(new Point(rect.X, rect.Y + rect.Height), new Size(rect.Width - 2, 20)), new Bgr(Color.Green), 20);
                     //draw prediction result over filled rectangle
                     capturedImage.Draw(listOfFileNames[result.Label], ref mCvFont, new Point(rect.X + 4, rect.Y + rect.Height + 15), new Bgr(Color.White));
                 }
@@ -214,6 +239,7 @@ namespace FaceRecognizerProject
             //convert image to gray scale
             Image<Gray, byte> grayImage = _image.Convert<Gray, byte>();
             Image<Gray, byte> face = null;
+            grayImage._EqualizeHist();
             //detect faces 
             var faces = classifier.DetectMultiScale(
                 grayImage,
@@ -234,6 +260,9 @@ namespace FaceRecognizerProject
             return new Tuple<Image<Bgr, byte>, Image<Gray, byte>>(_image, face);
         }
         Grid grid;
+
+        
+
         private void frmfacerec_Load(object sender, EventArgs e)
         {
             #region AppIdle Event 30FPS
@@ -273,6 +302,7 @@ namespace FaceRecognizerProject
             List<Image<Gray, byte>> faceImagesList = new List<Image<Gray, byte>>();
             //list of labels
             List<int> labels = new List<int>();
+            StreamWriter streamWriter = new StreamWriter(namesPath);
             if (dialogResult == DialogResult.OK)
             {
                 //i is the index of the person if we are training with same person so we dont need to increase i
@@ -293,28 +323,38 @@ namespace FaceRecognizerProject
                         lastPersonindex = i;
                         labels.Add(i++);
                         listOfFileNames.Add(name);
+                        streamWriter.WriteLine(name);
+
                     }
                     else
                         labels.Add(lastPersonindex);
                 }
                 faceRecognizer.Train(faceImagesList.ToArray(), labels.ToArray());
-                gruopTrained.Enabled = modeltrained = true;
+                Modeltrained = true;
                 listBox1.Items.AddRange(listOfFileNames.ToArray());
 
-                faceRecognizer.Save("trainedData.xml");
+                faceRecognizer.Save(trainingFilePath);
+                streamWriter.Close();
 
             }
         }
         private void BtnLoad_Click(object sender, System.EventArgs e)
         {
             faceRecognizer = new LBPHFaceRecognizer(1, 8, 8, 8, 100.0);
-            if (File.Exists("trainedData.xml"))
+            if (File.Exists(trainingFilePath))
             {
-                modeltrained = true;
-                faceRecognizer.Load("trainedData.xml");
+                Modeltrained = true;
+                faceRecognizer.Load(trainingFilePath);
+                StreamReader streamReader = new StreamReader(namesPath);
+                while (!streamReader.EndOfStream)
+                {
+                    listOfFileNames.Add(streamReader.ReadLine());
+                }
             }
             else
                 MessageBox.Show("you didnt train the model. Press train button!");
+
+
         }
         private void chcBautoCapture_CheckedChanged(object sender, EventArgs e)
         {
@@ -358,7 +398,8 @@ namespace FaceRecognizerProject
         void radioButtonTrainedInfo_Checked(object sender, EventArgs e)
         {
             if (((RadioButton)sender).Text == "true")
-                modeltrained = true;
+                Modeltrained = true;
+            else Modeltrained = false;
         }
 
         private void tsmiwebcam_Click(object sender, EventArgs e)
@@ -419,6 +460,8 @@ namespace FaceRecognizerProject
             #endregion
 
             jPEGStream = new MJPEGStream(infoList[0].IP);
+            jPEGStream.Login = infoList[0].UserName;
+            jPEGStream.Password = infoList[0].Password;
             jPEGStream.NewFrame += JPEGStream_NewFrame;
             jPEGStream.Start();
             //create grid
@@ -433,15 +476,31 @@ namespace FaceRecognizerProject
         private void JPEGStream_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
             Bitmap bitmap = (Bitmap)eventArgs.Frame.Clone();
+            if (rotateActive)
+                bitmap.RotateFlip(rotateType);
             ((ImageBox)grid.ControlsList[0]).Image = new Image<Bgr, byte>(bitmap);
 
         }
 
         private void frmfacerec_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(jPEGStream!=null)
-            jPEGStream.Stop();
-            
+            if (jPEGStream != null)
+                jPEGStream.Stop();
+
+        }
+
+        private void chcRotation_CheckedChanged(object sender, EventArgs e)
+        {
+            bool value = chcRotation.Checked;
+            rotateActive = value;
+            cmbRotation.Visible = value;
+            rotateType = (RotateFlipType)Enum.Parse(typeof(RotateFlipType), cmbRotation.SelectedItem.ToString());
+
+        }
+
+        private void cmbRotation_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            rotateType = (RotateFlipType)Enum.Parse(typeof(RotateFlipType), cmbRotation.SelectedItem.ToString());
         }
     }
 }
