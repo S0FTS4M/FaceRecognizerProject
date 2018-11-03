@@ -21,6 +21,7 @@ namespace FaceRecognizerProject
         {
             InitializeComponent();
             cameraInfos = new List<CameraInfo>();
+           
         }
 
         public CameraSelector(CameraType _cameraType)
@@ -47,7 +48,7 @@ namespace FaceRecognizerProject
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            if(cameraInfos==null || cameraInfos.Count==0)
+            if (cameraInfos == null || cameraInfos.Count == 0)
             {
                 MessageBox.Show("You should add at least one cam.");
                 return;
@@ -78,7 +79,13 @@ namespace FaceRecognizerProject
         {
             CameraInfo cameraInfo = new CameraInfo();
             cameraInfo.CameraType = CameraType.IP_CAMERA;
-            cameraInfo.IP = txtIP.Text;
+            string ipValue = "";
+            if (chcbResActive.Checked)
+                ipValue = txtIP.Text + cmbresolution.SelectedItem.ToString();
+            else
+                ipValue = txtIP.Text;
+
+            cameraInfo.IP = ipValue;
             cameraInfo.UserName = txtUsername.Text;
             cameraInfo.Password = txtpwd.Text;
 
@@ -94,14 +101,40 @@ namespace FaceRecognizerProject
 
         private void btnExampleIP_Click(object sender, EventArgs e)
         {
-            txtIP.Text = "http://192.168.1.101:4747/mjpegfeed?640x480";
+            //low resolution
+            //"";
+            //high resolution
+            //" http://192.168.137.186:4747/mjpegfeed?960x720";
+            txtIP.Text = "http://192.168.137.137:4747/mjpegfeed?";
             txtUsername.Text = "softsam";
             txtpwd.Text = "softsam";
+            chcbResActive.Checked = true;
         }
 
         private void chcshowHide_CheckedChanged(object sender, EventArgs e)
         {
             txtpwd.UseSystemPasswordChar = chcshowHide.Checked;
+        }
+
+        private void CameraSelector_Load(object sender, EventArgs e)
+        {
+            cmbresolution.SelectedIndex = 1;
+
+            //activate for testing purposes
+            //btnExampleIP.PerformClick();
+            //btnIpCamAddList.PerformClick();
+            //btnAdd.PerformClick();
+            //Close();
+        }
+
+        private void cmbresolution_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chcbResActive_CheckedChanged(object sender, EventArgs e)
+        {
+            cmbresolution.Visible = chcbResActive.Checked;
         }
     }
 }

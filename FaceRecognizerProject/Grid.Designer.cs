@@ -35,8 +35,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Grid";
-            this.Size = new System.Drawing.Size(708, 640);
+            this.Size = new System.Drawing.Size(800, 640);
             this.ResumeLayout(false);
 
         }

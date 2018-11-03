@@ -1,4 +1,7 @@
 [ ]Multiple IP camera addition
 [ ]find faces in every one of them
 [ ]save and load ip camera infos for later
- 
+[ ]trained groupbox has a small issue. With Loading or Training
+[ ]when I get the info list I need to save that list to another list in main form because I will need every one of them later
+I need to add ip cams anytime I want to.
+[ ]Creating a new grid every time we adding a new IP camera???? This does not look good!!!

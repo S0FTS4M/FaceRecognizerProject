@@ -15,6 +15,7 @@ namespace FaceRecognizerProject
         public string Password;
         public int camIndex;
         public CameraType CameraType;
+        public string Resolution;
 
         
        

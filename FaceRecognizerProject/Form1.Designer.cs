@@ -53,8 +53,10 @@
             this.tsmiIndex = new System.Windows.Forms.ToolStripMenuItem();
             this.ıpCameraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiaddCamera = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmitrainingFile = new System.Windows.Forms.ToolStripMenuItem();
             this.chcRotation = new System.Windows.Forms.CheckBox();
             this.cmbRotation = new System.Windows.Forms.ComboBox();
+            this.ofdFaceDetTraining = new System.Windows.Forms.OpenFileDialog();
             this.groupBox1.SuspendLayout();
             this.grpbAutoCapture.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numupdautocapturems)).BeginInit();
@@ -71,24 +73,27 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.label1.Location = new System.Drawing.Point(640, 28);
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.label1.Location = new System.Drawing.Point(801, 39);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(68, 25);
+            this.label1.Size = new System.Drawing.Size(48, 21);
             this.label1.TabIndex = 3;
             this.label1.Text = "FPS:0";
             // 
             // btnTrain
             // 
-            this.btnTrain.FlatAppearance.BorderColor = System.Drawing.Color.MediumOrchid;
+            this.btnTrain.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnTrain.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnTrain.FlatAppearance.BorderSize = 2;
             this.btnTrain.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnTrain.Font = new System.Drawing.Font("Tahoma", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnTrain.Location = new System.Drawing.Point(21, 21);
+            this.btnTrain.ForeColor = System.Drawing.Color.White;
+            this.btnTrain.Location = new System.Drawing.Point(18, 22);
             this.btnTrain.Name = "btnTrain";
-            this.btnTrain.Size = new System.Drawing.Size(82, 67);
+            this.btnTrain.Size = new System.Drawing.Size(72, 71);
             this.btnTrain.TabIndex = 4;
             this.btnTrain.Text = "Train";
-            this.btnTrain.UseVisualStyleBackColor = true;
+            this.btnTrain.UseVisualStyleBackColor = false;
             this.btnTrain.Click += new System.EventHandler(this.btnTrain_Click);
             // 
             // groupBox1
@@ -99,9 +104,9 @@
             this.groupBox1.Controls.Add(this.chcBautoCapture);
             this.groupBox1.Controls.Add(this.btnCapture);
             this.groupBox1.Controls.Add(this.txtpersonname);
-            this.groupBox1.Location = new System.Drawing.Point(752, 51);
+            this.groupBox1.Location = new System.Drawing.Point(806, 70);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(296, 203);
+            this.groupBox1.Size = new System.Drawing.Size(278, 216);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Capture Image";
@@ -109,18 +114,20 @@
             // lblCapturingInfo
             // 
             this.lblCapturingInfo.AutoSize = true;
-            this.lblCapturingInfo.Location = new System.Drawing.Point(18, 176);
+            this.lblCapturingInfo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.lblCapturingInfo.Location = new System.Drawing.Point(16, 187);
             this.lblCapturingInfo.Name = "lblCapturingInfo";
-            this.lblCapturingInfo.Size = new System.Drawing.Size(96, 17);
+            this.lblCapturingInfo.Size = new System.Drawing.Size(84, 15);
             this.lblCapturingInfo.TabIndex = 7;
             this.lblCapturingInfo.Text = "Capturing Info";
             // 
             // grpbAutoCapture
             // 
             this.grpbAutoCapture.Controls.Add(this.numupdautocapturems);
-            this.grpbAutoCapture.Location = new System.Drawing.Point(159, 119);
+            this.grpbAutoCapture.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.grpbAutoCapture.Location = new System.Drawing.Point(139, 126);
             this.grpbAutoCapture.Name = "grpbAutoCapture";
-            this.grpbAutoCapture.Size = new System.Drawing.Size(131, 50);
+            this.grpbAutoCapture.Size = new System.Drawing.Size(115, 62);
             this.grpbAutoCapture.TabIndex = 9;
             this.grpbAutoCapture.TabStop = false;
             this.grpbAutoCapture.Text = "Every ms";
@@ -129,20 +136,20 @@
             // numupdautocapturems
             // 
             this.numupdautocapturems.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.numupdautocapturems.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.numupdautocapturems.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.numupdautocapturems.Increment = new decimal(new int[] {
             500,
             0,
             0,
             0});
-            this.numupdautocapturems.Location = new System.Drawing.Point(3, 18);
+            this.numupdautocapturems.Location = new System.Drawing.Point(5, 22);
             this.numupdautocapturems.Maximum = new decimal(new int[] {
             5000,
             0,
             0,
             0});
             this.numupdautocapturems.Name = "numupdautocapturems";
-            this.numupdautocapturems.Size = new System.Drawing.Size(120, 25);
+            this.numupdautocapturems.Size = new System.Drawing.Size(105, 26);
             this.numupdautocapturems.TabIndex = 0;
             this.numupdautocapturems.ThousandsSeparator = true;
             this.numupdautocapturems.Value = new decimal(new int[] {
@@ -155,19 +162,19 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.label2.Location = new System.Drawing.Point(11, 26);
+            this.label2.Location = new System.Drawing.Point(10, 28);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(111, 20);
+            this.label2.Size = new System.Drawing.Size(94, 17);
             this.label2.TabIndex = 8;
             this.label2.Text = "Person Name";
             // 
             // chcBautoCapture
             // 
             this.chcBautoCapture.AutoSize = true;
-            this.chcBautoCapture.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.chcBautoCapture.Location = new System.Drawing.Point(160, 97);
+            this.chcBautoCapture.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chcBautoCapture.Location = new System.Drawing.Point(140, 98);
             this.chcBautoCapture.Name = "chcBautoCapture";
-            this.chcBautoCapture.Size = new System.Drawing.Size(124, 24);
+            this.chcBautoCapture.Size = new System.Drawing.Size(107, 23);
             this.chcBautoCapture.TabIndex = 7;
             this.chcBautoCapture.Text = "AutoCapture";
             this.chcBautoCapture.UseVisualStyleBackColor = true;
@@ -175,23 +182,26 @@
             // 
             // btnCapture
             // 
-            this.btnCapture.FlatAppearance.BorderColor = System.Drawing.Color.LimeGreen;
+            this.btnCapture.BackColor = System.Drawing.Color.CadetBlue;
+            this.btnCapture.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnCapture.FlatAppearance.BorderSize = 2;
             this.btnCapture.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCapture.Font = new System.Drawing.Font("Tahoma", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnCapture.Location = new System.Drawing.Point(14, 97);
+            this.btnCapture.ForeColor = System.Drawing.Color.White;
+            this.btnCapture.Location = new System.Drawing.Point(12, 103);
             this.btnCapture.Name = "btnCapture";
-            this.btnCapture.Size = new System.Drawing.Size(140, 72);
+            this.btnCapture.Size = new System.Drawing.Size(122, 76);
             this.btnCapture.TabIndex = 6;
             this.btnCapture.Text = "Capture";
-            this.btnCapture.UseVisualStyleBackColor = true;
+            this.btnCapture.UseVisualStyleBackColor = false;
             this.btnCapture.Click += new System.EventHandler(this.btnCapture_Click);
             // 
             // txtpersonname
             // 
-            this.txtpersonname.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.txtpersonname.Location = new System.Drawing.Point(14, 61);
+            this.txtpersonname.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.txtpersonname.Location = new System.Drawing.Point(12, 64);
             this.txtpersonname.Name = "txtpersonname";
-            this.txtpersonname.Size = new System.Drawing.Size(270, 30);
+            this.txtpersonname.Size = new System.Drawing.Size(237, 29);
             this.txtpersonname.TabIndex = 0;
             // 
             // groupBox2
@@ -200,9 +210,9 @@
             this.groupBox2.Controls.Add(this.btnLoad);
             this.groupBox2.Controls.Add(this.btnTrain);
             this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.groupBox2.Location = new System.Drawing.Point(752, 292);
+            this.groupBox2.Location = new System.Drawing.Point(806, 326);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(304, 94);
+            this.groupBox2.Size = new System.Drawing.Size(266, 100);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Recognizer";
@@ -212,9 +222,9 @@
             this.gruopTrained.Controls.Add(this.rbfalse);
             this.gruopTrained.Controls.Add(this.rbtrue);
             this.gruopTrained.Enabled = false;
-            this.gruopTrained.Location = new System.Drawing.Point(207, 15);
+            this.gruopTrained.Location = new System.Drawing.Point(181, 16);
             this.gruopTrained.Name = "gruopTrained";
-            this.gruopTrained.Size = new System.Drawing.Size(89, 73);
+            this.gruopTrained.Size = new System.Drawing.Size(78, 78);
             this.gruopTrained.TabIndex = 6;
             this.gruopTrained.TabStop = false;
             this.gruopTrained.Text = "Trained";
@@ -222,9 +232,9 @@
             // rbfalse
             // 
             this.rbfalse.AutoSize = true;
-            this.rbfalse.Location = new System.Drawing.Point(6, 46);
+            this.rbfalse.Location = new System.Drawing.Point(5, 49);
             this.rbfalse.Name = "rbfalse";
-            this.rbfalse.Size = new System.Drawing.Size(59, 21);
+            this.rbfalse.Size = new System.Drawing.Size(49, 17);
             this.rbfalse.TabIndex = 1;
             this.rbfalse.TabStop = true;
             this.rbfalse.Text = "false";
@@ -234,9 +244,9 @@
             // rbtrue
             // 
             this.rbtrue.AutoSize = true;
-            this.rbtrue.Location = new System.Drawing.Point(6, 22);
+            this.rbtrue.Location = new System.Drawing.Point(5, 23);
             this.rbtrue.Name = "rbtrue";
-            this.rbtrue.Size = new System.Drawing.Size(54, 21);
+            this.rbtrue.Size = new System.Drawing.Size(46, 17);
             this.rbtrue.TabIndex = 0;
             this.rbtrue.TabStop = true;
             this.rbtrue.Text = "true";
@@ -245,24 +255,27 @@
             // 
             // btnLoad
             // 
-            this.btnLoad.FlatAppearance.BorderColor = System.Drawing.Color.Indigo;
+            this.btnLoad.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.btnLoad.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnLoad.FlatAppearance.BorderSize = 2;
             this.btnLoad.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLoad.Font = new System.Drawing.Font("Tahoma", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnLoad.Location = new System.Drawing.Point(109, 21);
+            this.btnLoad.ForeColor = System.Drawing.Color.White;
+            this.btnLoad.Location = new System.Drawing.Point(95, 22);
             this.btnLoad.Name = "btnLoad";
-            this.btnLoad.Size = new System.Drawing.Size(82, 67);
+            this.btnLoad.Size = new System.Drawing.Size(72, 71);
             this.btnLoad.TabIndex = 5;
             this.btnLoad.Text = "Load";
-            this.btnLoad.UseVisualStyleBackColor = true;
+            this.btnLoad.UseVisualStyleBackColor = false;
             this.btnLoad.Click += new System.EventHandler(this.BtnLoad_Click);
             // 
             // listBox1
             // 
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 16;
-            this.listBox1.Location = new System.Drawing.Point(1099, 477);
+            this.listBox1.ItemHeight = 12;
+            this.listBox1.Location = new System.Drawing.Point(1141, 539);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(258, 132);
+            this.listBox1.Size = new System.Drawing.Size(226, 136);
             this.listBox1.TabIndex = 7;
             this.listBox1.Visible = false;
             // 
@@ -270,10 +283,12 @@
             // 
             this.menuStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cameraToolStripMenuItem});
+            this.cameraToolStripMenuItem,
+            this.tsmitrainingFile});
             this.menuStrip2.Location = new System.Drawing.Point(0, 0);
             this.menuStrip2.Name = "menuStrip2";
-            this.menuStrip2.Size = new System.Drawing.Size(1084, 28);
+            this.menuStrip2.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
+            this.menuStrip2.Size = new System.Drawing.Size(1095, 24);
             this.menuStrip2.TabIndex = 9;
             this.menuStrip2.Text = "menuStrip2";
             // 
@@ -284,14 +299,14 @@
             this.tsmiIndex,
             this.ıpCameraToolStripMenuItem});
             this.cameraToolStripMenuItem.Name = "cameraToolStripMenuItem";
-            this.cameraToolStripMenuItem.Size = new System.Drawing.Size(72, 24);
+            this.cameraToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
             this.cameraToolStripMenuItem.Text = "Camera";
             // 
             // tsmiwebcam
             // 
             this.tsmiwebcam.Name = "tsmiwebcam";
             this.tsmiwebcam.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
-            this.tsmiwebcam.Size = new System.Drawing.Size(216, 26);
+            this.tsmiwebcam.Size = new System.Drawing.Size(166, 22);
             this.tsmiwebcam.Text = "Webcam";
             this.tsmiwebcam.Click += new System.EventHandler(this.tsmiwebcam_Click);
             // 
@@ -299,7 +314,7 @@
             // 
             this.tsmiIndex.Name = "tsmiIndex";
             this.tsmiIndex.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.tsmiIndex.Size = new System.Drawing.Size(216, 26);
+            this.tsmiIndex.Size = new System.Drawing.Size(166, 22);
             this.tsmiIndex.Text = "Index";
             this.tsmiIndex.Click += new System.EventHandler(this.tsmiIndex_Click);
             // 
@@ -308,23 +323,31 @@
             this.ıpCameraToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiaddCamera});
             this.ıpCameraToolStripMenuItem.Name = "ıpCameraToolStripMenuItem";
-            this.ıpCameraToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.ıpCameraToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.ıpCameraToolStripMenuItem.Text = "Ip Camera";
             // 
             // tsmiaddCamera
             // 
             this.tsmiaddCamera.Name = "tsmiaddCamera";
             this.tsmiaddCamera.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
-            this.tsmiaddCamera.Size = new System.Drawing.Size(216, 26);
+            this.tsmiaddCamera.Size = new System.Drawing.Size(177, 22);
             this.tsmiaddCamera.Text = "Add Camera";
             this.tsmiaddCamera.Click += new System.EventHandler(this.tsmiaddCamera_Click);
+            // 
+            // tsmitrainingFile
+            // 
+            this.tsmitrainingFile.Name = "tsmitrainingFile";
+            this.tsmitrainingFile.Size = new System.Drawing.Size(83, 20);
+            this.tsmitrainingFile.Text = "Training File";
+            this.tsmitrainingFile.Click += new System.EventHandler(this.tsmitrainingFile_Click);
             // 
             // chcRotation
             // 
             this.chcRotation.AutoSize = true;
-            this.chcRotation.Location = new System.Drawing.Point(757, 406);
+            this.chcRotation.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.chcRotation.Location = new System.Drawing.Point(806, 432);
             this.chcRotation.Name = "chcRotation";
-            this.chcRotation.Size = new System.Drawing.Size(110, 21);
+            this.chcRotation.Size = new System.Drawing.Size(106, 23);
             this.chcRotation.TabIndex = 10;
             this.chcRotation.Text = "RotateImage";
             this.chcRotation.UseVisualStyleBackColor = true;
@@ -332,20 +355,26 @@
             // 
             // cmbRotation
             // 
+            this.cmbRotation.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cmbRotation.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbRotation.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.cmbRotation.FormattingEnabled = true;
-            this.cmbRotation.Location = new System.Drawing.Point(873, 403);
+            this.cmbRotation.Location = new System.Drawing.Point(806, 465);
             this.cmbRotation.Name = "cmbRotation";
-            this.cmbRotation.Size = new System.Drawing.Size(183, 28);
+            this.cmbRotation.Size = new System.Drawing.Size(266, 25);
             this.cmbRotation.TabIndex = 11;
             this.cmbRotation.Visible = false;
             this.cmbRotation.SelectedIndexChanged += new System.EventHandler(this.cmbRotation_SelectedIndexChanged);
             // 
+            // ofdFaceDetTraining
+            // 
+            this.ofdFaceDetTraining.FileName = "openFileDialog1";
+            // 
             // frmfacerec
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1084, 719);
+            this.ClientSize = new System.Drawing.Size(1095, 682);
             this.Controls.Add(this.cmbRotation);
             this.Controls.Add(this.chcRotation);
             this.Controls.Add(this.listBox1);
@@ -353,6 +382,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip2);
+            this.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.Name = "frmfacerec";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Face Detection and Recognition";
@@ -401,6 +431,8 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiaddCamera;
         private System.Windows.Forms.CheckBox chcRotation;
         private System.Windows.Forms.ComboBox cmbRotation;
+        private System.Windows.Forms.ToolStripMenuItem tsmitrainingFile;
+        private System.Windows.Forms.OpenFileDialog ofdFaceDetTraining;
     }
 }
 
