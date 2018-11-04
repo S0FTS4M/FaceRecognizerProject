@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.grpIpCam = new System.Windows.Forms.GroupBox();
+            this.chcbResActive = new System.Windows.Forms.CheckBox();
+            this.cmbresolution = new System.Windows.Forms.ComboBox();
             this.chcshowHide = new System.Windows.Forms.CheckBox();
             this.btnExampleIP = new System.Windows.Forms.Button();
             this.btnIpCamAddList = new System.Windows.Forms.Button();
@@ -42,8 +44,6 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.GrpIndex = new System.Windows.Forms.GroupBox();
             this.numupdownIndex = new System.Windows.Forms.NumericUpDown();
-            this.cmbresolution = new System.Windows.Forms.ComboBox();
-            this.chcbResActive = new System.Windows.Forms.CheckBox();
             this.grpIpCam.SuspendLayout();
             this.GrpIndex.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numupdownIndex)).BeginInit();
@@ -70,6 +70,32 @@
             this.grpIpCam.TabStop = false;
             this.grpIpCam.Text = "Ip Camera";
             // 
+            // chcbResActive
+            // 
+            this.chcbResActive.AutoSize = true;
+            this.chcbResActive.Location = new System.Drawing.Point(299, 64);
+            this.chcbResActive.Name = "chcbResActive";
+            this.chcbResActive.Size = new System.Drawing.Size(93, 23);
+            this.chcbResActive.TabIndex = 9;
+            this.chcbResActive.Text = "Res Active";
+            this.chcbResActive.UseVisualStyleBackColor = true;
+            this.chcbResActive.CheckedChanged += new System.EventHandler(this.chcbResActive_CheckedChanged);
+            // 
+            // cmbresolution
+            // 
+            this.cmbresolution.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.cmbresolution.FormattingEnabled = true;
+            this.cmbresolution.Items.AddRange(new object[] {
+            "320x240",
+            "640x480",
+            "960x720"});
+            this.cmbresolution.Location = new System.Drawing.Point(299, 91);
+            this.cmbresolution.Name = "cmbresolution";
+            this.cmbresolution.Size = new System.Drawing.Size(121, 25);
+            this.cmbresolution.TabIndex = 8;
+            this.cmbresolution.Visible = false;
+            this.cmbresolution.SelectedIndexChanged += new System.EventHandler(this.cmbresolution_SelectedIndexChanged);
+            // 
             // chcshowHide
             // 
             this.chcshowHide.AutoSize = true;
@@ -91,7 +117,7 @@
             this.btnExampleIP.Name = "btnExampleIP";
             this.btnExampleIP.Size = new System.Drawing.Size(119, 47);
             this.btnExampleIP.TabIndex = 6;
-            this.btnExampleIP.Text = "Example IP";
+            this.btnExampleIP.Text = "LoadOldIp";
             this.btnExampleIP.UseVisualStyleBackColor = true;
             this.btnExampleIP.Click += new System.EventHandler(this.btnExampleIP_Click);
             // 
@@ -209,32 +235,6 @@
             this.numupdownIndex.Name = "numupdownIndex";
             this.numupdownIndex.Size = new System.Drawing.Size(105, 34);
             this.numupdownIndex.TabIndex = 0;
-            // 
-            // cmbresolution
-            // 
-            this.cmbresolution.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.cmbresolution.FormattingEnabled = true;
-            this.cmbresolution.Items.AddRange(new object[] {
-            "320x240",
-            "640x480",
-            "960x720"});
-            this.cmbresolution.Location = new System.Drawing.Point(299, 91);
-            this.cmbresolution.Name = "cmbresolution";
-            this.cmbresolution.Size = new System.Drawing.Size(121, 25);
-            this.cmbresolution.TabIndex = 8;
-            this.cmbresolution.Visible = false;
-            this.cmbresolution.SelectedIndexChanged += new System.EventHandler(this.cmbresolution_SelectedIndexChanged);
-            // 
-            // chcbResActive
-            // 
-            this.chcbResActive.AutoSize = true;
-            this.chcbResActive.Location = new System.Drawing.Point(299, 64);
-            this.chcbResActive.Name = "chcbResActive";
-            this.chcbResActive.Size = new System.Drawing.Size(93, 23);
-            this.chcbResActive.TabIndex = 9;
-            this.chcbResActive.Text = "Res Active";
-            this.chcbResActive.UseVisualStyleBackColor = true;
-            this.chcbResActive.CheckedChanged += new System.EventHandler(this.chcbResActive_CheckedChanged);
             // 
             // CameraSelector
             // 

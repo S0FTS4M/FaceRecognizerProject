@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ namespace FaceRecognizerProject
         public delegate void GetInfoHandler(List<CameraInfo> infoList);
         public event GetInfoHandler GetCamInfoEvent;
 
+        string ipConfigPath = "trained/ipconfig.txt";
         List<CameraInfo> cameraInfos;
         CameraType cameraType;
         public CameraSelector()
@@ -96,19 +98,42 @@ namespace FaceRecognizerProject
         private void btnSave_Click(object sender, EventArgs e)
         {
             //save all list of ip based cameras with all info
-            MessageBox.Show("It is not available for now!!!");
+            StreamWriter streamWriter = new StreamWriter(ipConfigPath);
+            streamWriter.WriteLine("IP;"+txtIP.Text);
+            streamWriter.WriteLine("Res;"+cmbresolution.SelectedIndex);
+            streamWriter.WriteLine("UserName;"+txtUsername.Text);
+            streamWriter.WriteLine("Pwd;"+txtpwd.Text);
+            streamWriter.Close();
         }
+        //I will need a save file method that designs saving file..
+
 
         private void btnExampleIP_Click(object sender, EventArgs e)
         {
-            //low resolution
-            //"";
-            //high resolution
-            //" http://192.168.137.186:4747/mjpegfeed?960x720";
-            txtIP.Text = "http://192.168.137.137:4747/mjpegfeed?";
-            txtUsername.Text = "softsam";
-            txtpwd.Text = "softsam";
+            StreamReader streamReader = new StreamReader(ipConfigPath);
+
             chcbResActive.Checked = true;
+            while (!streamReader.EndOfStream)
+            {
+                string[] infos=streamReader.ReadLine().Split(';');
+                if (infos[0] == "IP")
+                    txtIP.Text = infos[1];
+                else if (infos[0] == "UserName")
+                    txtUsername.Text = infos[1];
+                else if (infos[0] == "Res")
+                    cmbresolution.SelectedIndex = int.Parse(infos[1]);
+                else if (infos[0] == "Pwd")
+                    txtpwd.Text = infos[1];
+
+            }
+            streamReader.Close();
+
+
+
+            // "http://192.168.137.113:4747/mjpegfeed?";
+           // txtUsername.Text = "softsam";
+           // txtpwd.Text = "softsam";
+           // chcbResActive.Checked = true;
         }
 
         private void chcshowHide_CheckedChanged(object sender, EventArgs e)

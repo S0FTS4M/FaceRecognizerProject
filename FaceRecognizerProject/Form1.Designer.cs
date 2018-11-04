@@ -46,7 +46,6 @@
             this.rbfalse = new System.Windows.Forms.RadioButton();
             this.rbtrue = new System.Windows.Forms.RadioButton();
             this.btnLoad = new System.Windows.Forms.Button();
-            this.listBox1 = new System.Windows.Forms.ListBox();
             this.menuStrip2 = new System.Windows.Forms.MenuStrip();
             this.cameraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiwebcam = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,9 +53,8 @@
             this.ıpCameraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiaddCamera = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmitrainingFile = new System.Windows.Forms.ToolStripMenuItem();
-            this.chcRotation = new System.Windows.Forms.CheckBox();
-            this.cmbRotation = new System.Windows.Forms.ComboBox();
             this.ofdFaceDetTraining = new System.Windows.Forms.OpenFileDialog();
+            this.label3 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.grpbAutoCapture.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numupdautocapturems)).BeginInit();
@@ -76,7 +74,7 @@
             this.label1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.label1.Location = new System.Drawing.Point(801, 39);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(48, 21);
+            this.label1.Size = new System.Drawing.Size(59, 28);
             this.label1.TabIndex = 3;
             this.label1.Text = "FPS:0";
             // 
@@ -117,7 +115,7 @@
             this.lblCapturingInfo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.lblCapturingInfo.Location = new System.Drawing.Point(16, 187);
             this.lblCapturingInfo.Name = "lblCapturingInfo";
-            this.lblCapturingInfo.Size = new System.Drawing.Size(84, 15);
+            this.lblCapturingInfo.Size = new System.Drawing.Size(104, 20);
             this.lblCapturingInfo.TabIndex = 7;
             this.lblCapturingInfo.Text = "Capturing Info";
             // 
@@ -149,7 +147,7 @@
             0,
             0});
             this.numupdautocapturems.Name = "numupdautocapturems";
-            this.numupdautocapturems.Size = new System.Drawing.Size(105, 26);
+            this.numupdautocapturems.Size = new System.Drawing.Size(105, 30);
             this.numupdautocapturems.TabIndex = 0;
             this.numupdautocapturems.ThousandsSeparator = true;
             this.numupdautocapturems.Value = new decimal(new int[] {
@@ -164,7 +162,7 @@
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.label2.Location = new System.Drawing.Point(10, 28);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(94, 17);
+            this.label2.Size = new System.Drawing.Size(111, 20);
             this.label2.TabIndex = 8;
             this.label2.Text = "Person Name";
             // 
@@ -174,7 +172,7 @@
             this.chcBautoCapture.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chcBautoCapture.Location = new System.Drawing.Point(140, 98);
             this.chcBautoCapture.Name = "chcBautoCapture";
-            this.chcBautoCapture.Size = new System.Drawing.Size(107, 23);
+            this.chcBautoCapture.Size = new System.Drawing.Size(130, 27);
             this.chcBautoCapture.TabIndex = 7;
             this.chcBautoCapture.Text = "AutoCapture";
             this.chcBautoCapture.UseVisualStyleBackColor = true;
@@ -201,7 +199,7 @@
             this.txtpersonname.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.txtpersonname.Location = new System.Drawing.Point(12, 64);
             this.txtpersonname.Name = "txtpersonname";
-            this.txtpersonname.Size = new System.Drawing.Size(237, 29);
+            this.txtpersonname.Size = new System.Drawing.Size(237, 34);
             this.txtpersonname.TabIndex = 0;
             // 
             // groupBox2
@@ -234,7 +232,7 @@
             this.rbfalse.AutoSize = true;
             this.rbfalse.Location = new System.Drawing.Point(5, 49);
             this.rbfalse.Name = "rbfalse";
-            this.rbfalse.Size = new System.Drawing.Size(49, 17);
+            this.rbfalse.Size = new System.Drawing.Size(57, 23);
             this.rbfalse.TabIndex = 1;
             this.rbfalse.TabStop = true;
             this.rbfalse.Text = "false";
@@ -246,7 +244,7 @@
             this.rbtrue.AutoSize = true;
             this.rbtrue.Location = new System.Drawing.Point(5, 23);
             this.rbtrue.Name = "rbtrue";
-            this.rbtrue.Size = new System.Drawing.Size(46, 17);
+            this.rbtrue.Size = new System.Drawing.Size(55, 23);
             this.rbtrue.TabIndex = 0;
             this.rbtrue.TabStop = true;
             this.rbtrue.Text = "true";
@@ -269,16 +267,6 @@
             this.btnLoad.UseVisualStyleBackColor = false;
             this.btnLoad.Click += new System.EventHandler(this.BtnLoad_Click);
             // 
-            // listBox1
-            // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 12;
-            this.listBox1.Location = new System.Drawing.Point(1141, 539);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(226, 136);
-            this.listBox1.TabIndex = 7;
-            this.listBox1.Visible = false;
-            // 
             // menuStrip2
             // 
             this.menuStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -288,7 +276,7 @@
             this.menuStrip2.Location = new System.Drawing.Point(0, 0);
             this.menuStrip2.Name = "menuStrip2";
             this.menuStrip2.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.menuStrip2.Size = new System.Drawing.Size(1095, 24);
+            this.menuStrip2.Size = new System.Drawing.Size(1095, 28);
             this.menuStrip2.TabIndex = 9;
             this.menuStrip2.Text = "menuStrip2";
             // 
@@ -299,14 +287,14 @@
             this.tsmiIndex,
             this.ıpCameraToolStripMenuItem});
             this.cameraToolStripMenuItem.Name = "cameraToolStripMenuItem";
-            this.cameraToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
+            this.cameraToolStripMenuItem.Size = new System.Drawing.Size(72, 24);
             this.cameraToolStripMenuItem.Text = "Camera";
             // 
             // tsmiwebcam
             // 
             this.tsmiwebcam.Name = "tsmiwebcam";
             this.tsmiwebcam.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
-            this.tsmiwebcam.Size = new System.Drawing.Size(166, 22);
+            this.tsmiwebcam.Size = new System.Drawing.Size(198, 26);
             this.tsmiwebcam.Text = "Webcam";
             this.tsmiwebcam.Click += new System.EventHandler(this.tsmiwebcam_Click);
             // 
@@ -314,7 +302,7 @@
             // 
             this.tsmiIndex.Name = "tsmiIndex";
             this.tsmiIndex.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.tsmiIndex.Size = new System.Drawing.Size(166, 22);
+            this.tsmiIndex.Size = new System.Drawing.Size(198, 26);
             this.tsmiIndex.Text = "Index";
             this.tsmiIndex.Click += new System.EventHandler(this.tsmiIndex_Click);
             // 
@@ -323,61 +311,44 @@
             this.ıpCameraToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiaddCamera});
             this.ıpCameraToolStripMenuItem.Name = "ıpCameraToolStripMenuItem";
-            this.ıpCameraToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.ıpCameraToolStripMenuItem.Size = new System.Drawing.Size(198, 26);
             this.ıpCameraToolStripMenuItem.Text = "Ip Camera";
             // 
             // tsmiaddCamera
             // 
             this.tsmiaddCamera.Name = "tsmiaddCamera";
             this.tsmiaddCamera.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
-            this.tsmiaddCamera.Size = new System.Drawing.Size(177, 22);
+            this.tsmiaddCamera.Size = new System.Drawing.Size(213, 26);
             this.tsmiaddCamera.Text = "Add Camera";
             this.tsmiaddCamera.Click += new System.EventHandler(this.tsmiaddCamera_Click);
             // 
             // tsmitrainingFile
             // 
             this.tsmitrainingFile.Name = "tsmitrainingFile";
-            this.tsmitrainingFile.Size = new System.Drawing.Size(83, 20);
+            this.tsmitrainingFile.Size = new System.Drawing.Size(101, 24);
             this.tsmitrainingFile.Text = "Training File";
             this.tsmitrainingFile.Click += new System.EventHandler(this.tsmitrainingFile_Click);
-            // 
-            // chcRotation
-            // 
-            this.chcRotation.AutoSize = true;
-            this.chcRotation.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.chcRotation.Location = new System.Drawing.Point(806, 432);
-            this.chcRotation.Name = "chcRotation";
-            this.chcRotation.Size = new System.Drawing.Size(106, 23);
-            this.chcRotation.TabIndex = 10;
-            this.chcRotation.Text = "RotateImage";
-            this.chcRotation.UseVisualStyleBackColor = true;
-            this.chcRotation.CheckedChanged += new System.EventHandler(this.chcRotation_CheckedChanged);
-            // 
-            // cmbRotation
-            // 
-            this.cmbRotation.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cmbRotation.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cmbRotation.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.cmbRotation.FormattingEnabled = true;
-            this.cmbRotation.Location = new System.Drawing.Point(806, 465);
-            this.cmbRotation.Name = "cmbRotation";
-            this.cmbRotation.Size = new System.Drawing.Size(266, 25);
-            this.cmbRotation.TabIndex = 11;
-            this.cmbRotation.Visible = false;
-            this.cmbRotation.SelectedIndexChanged += new System.EventHandler(this.cmbRotation_SelectedIndexChanged);
             // 
             // ofdFaceDetTraining
             // 
             this.ofdFaceDetTraining.FileName = "openFileDialog1";
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.label3.Location = new System.Drawing.Point(881, 39);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(59, 28);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "FPS:0";
+            // 
             // frmfacerec
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1095, 682);
-            this.Controls.Add(this.cmbRotation);
-            this.Controls.Add(this.chcRotation);
-            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
@@ -422,17 +393,15 @@
         private System.Windows.Forms.GroupBox gruopTrained;
         private System.Windows.Forms.RadioButton rbfalse;
         private System.Windows.Forms.RadioButton rbtrue;
-        private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.MenuStrip menuStrip2;
         private System.Windows.Forms.ToolStripMenuItem cameraToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tsmiwebcam;
         private System.Windows.Forms.ToolStripMenuItem tsmiIndex;
         private System.Windows.Forms.ToolStripMenuItem ıpCameraToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tsmiaddCamera;
-        private System.Windows.Forms.CheckBox chcRotation;
-        private System.Windows.Forms.ComboBox cmbRotation;
         private System.Windows.Forms.ToolStripMenuItem tsmitrainingFile;
         private System.Windows.Forms.OpenFileDialog ofdFaceDetTraining;
+        private System.Windows.Forms.Label label3;
     }
 }
 

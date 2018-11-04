@@ -22,20 +22,23 @@ namespace FaceRecognizerProject
         string namesPath = "trained/listofNames.txt";
         string trainingFilePath = "trained/trainedData.xml";
 
-        int fontOffsetY=35, fontOffsetX=4;
+        int fontOffsetY = 35, fontOffsetX = 4;
 
         string classifierPath = @"cascades/haarcascade_frontalface_alt.xml";
-        //AFORGE VIDEO CAPTURE
-        //private FilterInfoCollection videoCaptureDevices;
-        //private VideoCaptureDevice finalVideo;
 
-        Dictionary<MJPEGStream, Control> mJpegStreamToControlPair;
-        Dictionary<MJPEGStream, CascadeClassifier> mJpegStreamToClassifierPair;
+        Dictionary<MJPEGStream, Cell> mJpegStreamToCell;
+        Cell webcamCell;
+
         List<CameraInfo> camInfos;
+
+        double scaleFactor = 1.3;
+        int minNeighbours = 5;
+        Size minSize = new Size(64, 64);
+        Size maxSize = new Size(256, 256);
 
         List<MJPEGStream> jPEGStreamList;
         //Capture will access the camera and reads the stream
-        private static List<CascadeClassifier> classifiers; 
+        private static List<CascadeClassifier> classifiers;
 
         //Recognizer Algorithm
         //new LBPHFaceRecognizer(1, 8, 8, 8, 100.0);
@@ -43,7 +46,6 @@ namespace FaceRecognizerProject
         FaceRecognizer faceRecognizer = new LBPHFaceRecognizer(1, 8, 8, 8, 100.0);
         //The text font that we write the person name
         MCvFont mCvFont = new MCvFont(FONT.CV_FONT_HERSHEY_TRIPLEX, 1.5, 1.5);
-
 
         ImageBox webcamImageBox;
         private static CascadeClassifier cascadeClassifierWebCam;
@@ -61,20 +63,20 @@ namespace FaceRecognizerProject
         //there will be a capture list because we will have a list of cameras but for now we are not worried about this
         //we just need to access only 1 camera
         Capture capture;
-        //The original image we read from cam
-        Image<Bgr, byte> capturedImage = null;
+
+        Image<Bgr, byte> capturedImageForSaving = null;
         //capturing info
         Color foreColor;
         string info = "";
         //if you dont want to try catching everytime your face detected you an enable auto capture
         bool autoCapture = false;
         //there will be a limit of time that you  can auto capture otherwise you will have a large amount of same face
-        long elapsedTimeforAutoCapture = 0;
+        //long elapsedTimeforAutoCapture = 0;
         //all settings are ready for capturing face? like does this person have a name
         private bool canCapture = false;
 
-        bool ipCamActive = false;
-        bool isAnyCamActive = false;
+        //bool ipCamActive = false;
+        //bool isAnyCamActive = false;
         //if image comes with different rotation
         bool rotateActive = false;
         RotateFlipType rotateType = RotateFlipType.RotateNoneFlipNone;
@@ -97,39 +99,26 @@ namespace FaceRecognizerProject
             }
         }
 
-
         public frmfacerec()
         {
             InitializeComponent();
 
+            classifiers = new List<CascadeClassifier>();
 
-           classifiers = new List<CascadeClassifier>();
-           
             grid = new Grid(ControlType.ImageBox);
             Controls.Add(grid);
-            mJpegStreamToControlPair = new Dictionary<MJPEGStream, Control>();
-            mJpegStreamToClassifierPair = new Dictionary<MJPEGStream, CascadeClassifier>();
-            jPEGStreamList = new List<MJPEGStream>();
-            ///Fill rotation combobox with RotateFlipType NoneFlip ones
-            IEnumerable<string> listOfRotateTypes = Enum.GetNames(typeof(RotateFlipType)).Where(value => value.Contains("FlipNone")).Select(
-                value => value
-                    );
-            cmbRotation.Items.AddRange(listOfRotateTypes.ToArray<string>());
-            cmbRotation.SelectedItem = RotateFlipType.RotateNoneFlipNone.ToString();
-            ///End of Combobox filling
 
-            ///Create Grid object
-            //grid = new Grid(1, 1, ControlTyte.ImageBox);
-            //this.Controls.Add(grid);
+            mJpegStreamToCell = new Dictionary<MJPEGStream, Cell>();
+            jPEGStreamList = new List<MJPEGStream>();
 
             ofdFaceDetTraining.InitialDirectory = Application.StartupPath;
 
             camInfos = new List<CameraInfo>();
         }
-
-
         private void timerCameraFramer_Tick(object sender, EventArgs e)
         {
+            //The original image we read from cam
+            Image<Bgr, byte> capturedImage = null;
             //reset canCapture every frame
             canCapture = false;
             ///FPS counter start
@@ -140,33 +129,30 @@ namespace FaceRecognizerProject
                 label1.Text = "FPS: " + fps.ToString();
                 fps = 0;
                 stopwatch.Restart();
-
             }
-
+            label3.Text = "Cell count in grid now:"+grid.CellList.Count.ToString();
             ///fps counter end
-            ///
-            ////Burada ip cam active ise şunu yap değilse bunu yap mantığı yanlış 
-            ///ip cam zaten kendi eventlarına sahip orada bu işlemleri gerçekleştirsin
-           
 
             capturedImage = capture.QueryFrame();
-          
-
-
+            capturedImageForSaving = capturedImage.Clone();
+            if (webcamCell.RotateType != RotateFlipType.RotateNoneFlipNone)
+            {
+                Bitmap bmp = capturedImage.Bitmap;
+                bmp.RotateFlip(webcamCell.RotateType);
+                capturedImage = new Image<Bgr, byte>(bmp);
+            }
             if (capturedImage == null || webcamImageBox == null)
                 return;
-            DetectGuessShow(capturedImage, webcamImageBox,cascadeClassifierWebCam);
-
+            DetectGuessShow(capturedImage, webcamImageBox, cascadeClassifierWebCam);
 
         }
-
-        void DetectGuessShow(Image<Bgr, byte> _capturedImage, ImageBox imageBox,CascadeClassifier cascadeClassifier)
+        void DetectGuessShow(Image<Bgr, byte> _capturedImage, ImageBox imageBox, CascadeClassifier cascadeClassifier)
         {
             //if we didnt train the model we just can detect the face
             if (Modeltrained == false)
             {
                 //get Detected face and detected face rectangle
-                Tuple<Image<Bgr, byte>, Image<Gray, byte>> faceRectandGrayFace = DetectedFace(_capturedImage.Clone(),cascadeClassifier);
+                Tuple<Image<Bgr, byte>, Image<Gray, byte>> faceRectandGrayFace = DetectedFace(_capturedImage.Clone(), cascadeClassifier);
                 Image<Bgr, byte> foundFaceRect = faceRectandGrayFace.Item1;
                 Image<Gray, byte> foundFace = faceRectandGrayFace.Item2;
 
@@ -219,15 +205,11 @@ namespace FaceRecognizerProject
 
 
                 imageBox.Image = foundFaceRect;
-
-                // (grid.ControlsList[0] as ImageBox).Image = foundFaceRect;
-                //show the image with rectangled face on it
-                //imageBLiveCamera.Image = foundFaceRect;
             }
             //if model trained then we need to predict who is it
             if (Modeltrained == true)
             {
-                Guess(_capturedImage,imageBox,cascadeClassifier);
+                Guess(_capturedImage, imageBox, cascadeClassifier);
             }
         }
         private List<Image<Gray, byte>> PreProcessingImages(params Image<Gray, byte>[] _images)
@@ -238,32 +220,33 @@ namespace FaceRecognizerProject
 
                 //try
                 //{
-                //    _images[i]._EqualizeHist();
+                _images[i]._EqualizeHist();
                 //}
                 //catch
                 //{
                 //    MessageBox.Show("hata");
                 //}
+                
+              //  _images[i] = _images[i].SmoothGaussian(3);
                 _images[i] = _images[i].SmoothBilatral(9, 75, 75);
-
                 preProccessedImages.Add(_images[i]);
 
             }
             return preProccessedImages;
         }
-
-        private void Guess(Image<Bgr, byte> capturedImage, ImageBox imageBox , CascadeClassifier cascadeClassifier)
+        private void Guess(Image<Bgr, byte> capturedImage, ImageBox imageBox, CascadeClassifier cascadeClassifier)
         {
             //we need the gray scale image so we apply convert to gray
             Image<Gray, byte> grayImage = capturedImage.Copy().Convert<Gray, byte>();
+
             //detects every face in an image
             var faces = cascadeClassifier.DetectMultiScale(
                 grayImage,
-                1.3,
-                5,
-                new Size(64, 64),
-                Size.Empty);
-          //  lblCapturingInfo.Text = "undefind";
+                scaleFactor,
+                minNeighbours,
+                minSize,
+                maxSize);
+            //  lblCapturingInfo.Text = "undefind";
             //for every rectangle that we found from classifier.DetectMultiScale we need to make a guess
             foreach (var rect in faces)
             {
@@ -282,7 +265,7 @@ namespace FaceRecognizerProject
                 }
                 if (result.Label >= 0)
                 {
-                   // lblCapturingInfo.Text = listOfFileNames[result.Label];
+                    // lblCapturingInfo.Text = listOfFileNames[result.Label];
                     //draw the face rectangle
                     capturedImage.Draw(rect, new Bgr(Color.Yellow), 3);
                     //draw the filled rectangle under the face rectangle
@@ -303,8 +286,7 @@ namespace FaceRecognizerProject
             imageBox.Image = capturedImage;
 
         }
-
-        private Tuple<Image<Bgr, byte>, Image<Gray, byte>> DetectedFace(Image<Bgr, byte> _image,CascadeClassifier cascadeClassifier)
+        private Tuple<Image<Bgr, byte>, Image<Gray, byte>> DetectedFace(Image<Bgr, byte> _image, CascadeClassifier cascadeClassifier)
         {
             if (_image == null)
                 return null;
@@ -316,10 +298,10 @@ namespace FaceRecognizerProject
             //detect faces 
             var faces = cascadeClassifier.DetectMultiScale(
                 grayImage,
-                1.3,
-                5,
-                new Size(64, 64),
-                Size.Empty
+                scaleFactor,
+                minNeighbours,
+                minSize,
+                maxSize
                 );
             //draw rectangles for every face
             foreach (var rect in faces)
@@ -332,38 +314,9 @@ namespace FaceRecognizerProject
             //return rectabgled image and gray scaled face image
             return new Tuple<Image<Bgr, byte>, Image<Gray, byte>>(_image, face);
         }
-        
         private void frmfacerec_Load(object sender, EventArgs e)
         {
-            #region AppIdle Event 30FPS
-            //Stopwatch stopwatch = new Stopwatch();
-            //int fps = 0;
-            //stopwatch.Start();
-            //Application.Idle += new EventHandler(delegate (object senderObj, EventArgs ea)
-            //{
-            //    fps++;
-            //    if (stopwatch.ElapsedMilliseconds >= 1000)
-            //    {
-            //        label1.Text ="FPS: "+ fps.ToString();
-            //        fps = 0;
-            //        stopwatch.Restart();
-            //    }
-            //    capturedImage = capture.QueryFrame();
-
-
-            //    imageBLiveCamera.Image = DetecetFace(capturedImage);
-
-            //});
-            #endregion
-
-            ///Testing
-
-            ///
-
-            ///Testing
-            //tsmiwebcam.PerformClick();
         }
-
         private void btnTrain_Click(object sender, EventArgs e)
         {
             //select a training folder with faces
@@ -401,7 +354,6 @@ namespace FaceRecognizerProject
                 }
                 faceRecognizer.Train(faceImagesList.ToArray(), labels.ToArray());
                 Modeltrained = true;
-                listBox1.Items.AddRange(listOfFileNames.ToArray());
 
                 faceRecognizer.Save(trainingFilePath);
                 streamWriter.Close();
@@ -433,7 +385,6 @@ namespace FaceRecognizerProject
             btnCapture.Enabled = !chcBautoCapture.Checked;
 
         }
-
         private void btnCapture_Click(object sender, EventArgs e)
         {
             if (txtpersonname.Text == string.Empty)
@@ -441,14 +392,20 @@ namespace FaceRecognizerProject
                 MessageBox.Show("there should be a person name");
                 return;
             }
-
-            Image<Bgr, byte> foundFace = DetectedFace(capturedImage.Clone(),cascadeClassifierWebCam).Item1;
+            Image<Bgr, byte> capturedImage = capturedImageForSaving;
+            Image<Gray, byte> foundFace = DetectedFace(capturedImage.Clone(), cascadeClassifierWebCam).Item2;
             if (canCapture)
             {
+                Image<Gray, byte> flippedImage = foundFace.Clone().Flip(FLIP.HORIZONTAL);
+
                 info = "Image Captured";
                 foreColor = Color.Green;
-                SaveImage(capturedImage,
-                txtpersonname.Text + random.Next(0, 9).ToString() + random.Next(0, 9).ToString() + random.Next(0, 9).ToString());
+                //save image with name and 3 other random numbers
+                List<Image<Gray, byte>> preProcessedImages = PreProcessingImages(foundFace, flippedImage);
+                foreach (Image<Gray, byte> currImage in preProcessedImages)
+                {
+                    SaveImage(currImage, txtpersonname.Text + random.Next(0, 9).ToString() + random.Next(0, 9).ToString() + random.Next(0, 9).ToString());
+                }
             }
             else
             {
@@ -460,19 +417,16 @@ namespace FaceRecognizerProject
             lblCapturingInfo.Text = info;
             lblCapturingInfo.ForeColor = foreColor;
         }
-
         void SaveImage(IImage _image, string name = "", string path = "training\\")
         {
             _image.Save(path + name + ".png");
         }
-
         void radioButtonTrainedInfo_Checked(object sender, EventArgs e)
         {
             if (((RadioButton)sender).Text == "true")
                 Modeltrained = true;
             else Modeltrained = false;
         }
-
         private void tsmiwebcam_Click(object sender, EventArgs e)
         {
             cascadeClassifierWebCam = new CascadeClassifier(classifierPath);
@@ -480,20 +434,16 @@ namespace FaceRecognizerProject
 
             //initialize video capturers
             grid.AdjustCells(1);
-            foreach (Control item in grid.ControlsList)
+            foreach (Cell cell in grid.CellList)
             {
-                ImageBox box = item as ImageBox;
-                if (box.Tag.ToString() == "0")
+                ImageBox box = cell.Control as ImageBox;
+                if (cell.CellTaken == false)
                 {
                     webcamImageBox = box;
+                    webcamCell = cell;
                     break;
                 }
             }
-
-            //videoCaptureDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-            //finalVideo = new VideoCaptureDevice(videoCaptureDevices[0].MonikerString);
-            //finalVideo.NewFrame += WebcamFrameCapturer_NewFrame;
-            //finalVideo.Start();
 
             camInfos.Add(new CameraInfo() { CameraType = CameraType.WEB_CAM });
             timerCameraFramer.Start();
@@ -502,27 +452,12 @@ namespace FaceRecognizerProject
 
 
         }
-
-        private void WebcamFrameCapturer_NewFrame(object sender, NewFrameEventArgs eventArgs)
-        {
-           
-
-            //captured images etc.
-            Bitmap frame = eventArgs.Frame.Clone() as Bitmap;
-            Image<Bgr, byte> newImage = new Image<Bgr, byte>(frame);
-            webcamImageBox.Image = newImage;
-            webcamImageBox.Tag = "1";
-            
-          //  DetectGuessShow(newImage, webcamImageBox);
-        }
-
         private void tsmiIndex_Click(object sender, EventArgs e)
         {
             CameraSelector cameraSelector = new CameraSelector(CameraType.INDEXED);
             cameraSelector.GetCamInfoEvent += CameraSelectorIndexed_GetCamInfoEvent;
             cameraSelector.ShowDialog();
         }
-
         private void CameraSelectorIndexed_GetCamInfoEvent(List<CameraInfo> camInfos)
         {
             //Create Capture object and give it the right info
@@ -533,30 +468,16 @@ namespace FaceRecognizerProject
             timerCameraFramer.Start();
 
         }
-
         private void tsmiaddCamera_Click(object sender, EventArgs e)
         {
             CameraSelector cameraSelector = new CameraSelector(CameraType.IP_CAMERA);
             cameraSelector.GetCamInfoEvent += CameraSelectorIPCam_GetCamInfoEvent;
             cameraSelector.ShowDialog();
         }
-
         private void CameraSelectorIPCam_GetCamInfoEvent(List<CameraInfo> infoList)
         {
-            //Create Capture object and give it the right info
-            //we can have a list of items here so loop over every one and create a grid for this
-            //cameraCapture = new Capture("http://user:passwd@http://169.254.255.253") example
-            //we will have a list but for the Alpha V. we will use only 1
-
-            #region DifferentApproach
-            ///for testing
-            //capture = new Capture(" http://192.168.1.100:4747/video");//string.Format("http://{0}:{1}@{2}", infoList[0].UserName, infoList[0].Password, infoList[0].IP));
-            // IntPtr _capture = Emgu.CV.CvInvoke.cvCreateFileCapture("http://username:pass@http://192.168.1.100:8080/axis-cgi/mjpg/video.cgi?resolution=640x480&req_fps=30&.mjpg");
-            #endregion
-
             camInfos.AddRange(infoList.ToArray());
-            //if (Controls.Contains(grid))
-            //    Controls.Remove(grid);
+
             grid.AdjustCells(infoList.Count);
 
             for (int i = 0; i <= infoList.Count - 1; i++)
@@ -568,52 +489,45 @@ namespace FaceRecognizerProject
 
                 jPEGStream.Start();
                 jPEGStreamList.Add(jPEGStream);
-
-
             }
             int jIndex = 0;
             for (int i = 0; i < camInfos.Count; i++)
             {
                 if (camInfos[i].CameraType == CameraType.WEB_CAM || camInfos[i].CameraType == CameraType.INDEXED)
                     continue;
-                if ((grid.ControlsList[jIndex] as ImageBox).Tag.ToString() == "0")
+                if (grid.CellList[jIndex].CellTaken == false)
                 {
-                    if (mJpegStreamToControlPair.ContainsKey(jPEGStreamList[jIndex]) == false)
+                    if (mJpegStreamToCell.ContainsKey(jPEGStreamList[jIndex]) == false)
                     {
-                        mJpegStreamToControlPair.Add(jPEGStreamList[jIndex], grid.ControlsList[i]);
-                        mJpegStreamToClassifierPair.Add(jPEGStreamList[jIndex], new CascadeClassifier(classifierPath));
+                        //create new classifier for this cell
+                        grid.CellList[i].CascadeClassifier = new CascadeClassifier(classifierPath);
+                        //add to the dictionary that takes a jpegstream and a cell that stream controls
+                        mJpegStreamToCell.Add(jPEGStreamList[jIndex], grid.CellList[i]);
+                        //create the frame that captures frames
                         jPEGStreamList[jIndex].NewFrame += JPEGStream_NewFrame;
-                        (grid.ControlsList[i] as ImageBox).Tag = "1";
+                        //assign objects tag as 1 so we can know that we are using this cell
+                        grid.CellList[i].CellTaken = true;
                     }
-                    else
-                    {
-                        //mJpegStreamToControlPair[jPEGStreamList[jIndex]] = grid.ControlsList[jIndex];
-                    }
-
                 }
                 jIndex++;
             }
-
-            //this.Controls.Add(grid);
-            ipCamActive = true;
-            //timerCameraFramer.Start();
-           // stopwatch.Start();
-
-
         }
         private void JPEGStream_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
             Bitmap bitmap = (Bitmap)eventArgs.Frame.Clone();
-            if (rotateActive)
-                bitmap.RotateFlip(rotateType);
-            ImageBox _imageBox = (ImageBox)mJpegStreamToControlPair[((MJPEGStream)sender)];
-            Image<Bgr,byte> capImage= new Image<Bgr, byte>(bitmap);
-            CascadeClassifier cascadeClassifier = mJpegStreamToClassifierPair[(MJPEGStream)sender];
 
-            DetectGuessShow(capImage, _imageBox,cascadeClassifier);
-            //imageBox.Image = new Image<Bgr, byte>(bitmap);
+            //if there is no rotation dont need to call rotate method
+            if (mJpegStreamToCell[((MJPEGStream)sender)].RotateType != RotateFlipType.RotateNoneFlipNone)
+                bitmap.RotateFlip(mJpegStreamToCell[((MJPEGStream)sender)].RotateType);
+            //get the control in the cell
+            ImageBox _imageBox = (ImageBox)mJpegStreamToCell[((MJPEGStream)sender)].Control;
+            //create image from bitmap
+            Image<Bgr, byte> capImage = new Image<Bgr, byte>(bitmap);
+            //get classifier
+            CascadeClassifier cascadeClassifier = mJpegStreamToCell[(MJPEGStream)sender].CascadeClassifier;
+
+            DetectGuessShow(capImage, _imageBox, cascadeClassifier);
         }
-
         private void frmfacerec_FormClosing(object sender, FormClosingEventArgs e)
         {
             foreach (var stream in jPEGStreamList)
@@ -621,29 +535,7 @@ namespace FaceRecognizerProject
                 if (stream != null)
                     stream.Stop();
             }
-            //stop webcam capturing here if it is active AFORGE
-            //if (finalVideo != null && finalVideo.IsRunning)
-            //    finalVideo.Stop();
-
-            
-             
         }
-
-        private void chcRotation_CheckedChanged(object sender, EventArgs e)
-        {
-            bool value = chcRotation.Checked;
-            rotateActive = value;
-            cmbRotation.Visible = value;
-            rotateType = (RotateFlipType)Enum.Parse(typeof(RotateFlipType), cmbRotation.SelectedItem.ToString());
-
-        }
-
-        //this will get transfered to context menu of the item
-        private void cmbRotation_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            rotateType = (RotateFlipType)Enum.Parse(typeof(RotateFlipType), cmbRotation.SelectedItem.ToString());
-        }
-
         private void tsmitrainingFile_Click(object sender, EventArgs e)
         {
             string filePath = "";
@@ -654,6 +546,12 @@ namespace FaceRecognizerProject
                 filePath = ofdFaceDetTraining.SafeFileName;
                 //classifier = new CascadeClassifier(@"cascades/" + filePath);
                 classifierPath = @"cascades/" + filePath;
+            }
+            //we have changed the classifier so make sure every cam has same one
+            ///we can make different classifiers for every cam later maybe???
+            foreach (Cell cell in grid.CellList)
+            {
+                cell.CascadeClassifier = new CascadeClassifier(classifierPath);
             }
         }
     }

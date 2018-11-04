@@ -48,3 +48,17 @@ private void button2_Click(object sender, EventArgs e)
     FinalVideo.Stop();
 }
 }
+
+
+
+
+
+            #region filling combobox with rotatetypes
+            ///Fill rotation combobox with RotateFlipType NoneFlip ones
+            //IEnumerable<string> listOfRotateTypes = Enum.GetNames(typeof(RotateFlipType)).Where(value => value.Contains("FlipNone")).Select(
+            //    value => value
+            //        );
+            //cmbRotation.Items.AddRange(listOfRotateTypes.ToArray<string>());
+            //cmbRotation.SelectedItem = RotateFlipType.RotateNoneFlipNone.ToString();
+            ///End of Combobox filling
+            #endregion

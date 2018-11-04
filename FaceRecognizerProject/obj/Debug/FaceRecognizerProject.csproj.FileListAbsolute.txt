@@ -16,4 +16,4 @@ C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\bin\Debu
 C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\bin\Debug\AForge.Video.xml
 C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\bin\Debug\AForge.Video.DirectShow.dll
 C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\bin\Debug\AForge.Video.DirectShow.xml
-C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\obj\Debug\FaceRecognizerProject.Cell.resources
+C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\obj\Debug\FaceRecognizerProject.Grid.resources

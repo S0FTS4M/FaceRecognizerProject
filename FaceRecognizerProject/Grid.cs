@@ -10,43 +10,31 @@ namespace FaceRecognizerProject
 {
     public enum ControlType { Button, PictureBox, ImageBox, Panel, GroupBox }
 
-    /// <summary>
-    /// Implement Cell Logic so I can handle things easily 
-    /// TURKISH INFO
-    /// Örnek: Hücreye belli atamalar yaptığımda bunları ana formda tutmama gerek kalmayacak
-    /// formda üzerinde işlem yapılan cell tüm gerekli bilgileri tutacak
-    /// </summary>
-    public class Cell
-    {
-        Control control;
-        int cellWidth;
-        int cellHeight;
-
-    }
+   
     public partial class Grid : UserControl
     {
         //there will be a m by n grid so we will have a m and n from user
         int cellCount = 0;
         int maxC = 3, maxR = 3;
         int r, c;
-        int maxControlWidth, maxControlHeight;
-        List<Control> controlsList;
-        public List<Control> ControlsList { get => controlsList; protected set => controlsList = value; }
+        int maxCellWidth, maxCellHeight;
+        Control contextMenuOwnerControl=null;
+        List<Cell> cellList;
+        public List<Cell> CellList { get => cellList; protected set => cellList = value; }
         ControlType controlType;
 
         public Grid()
         {
             InitializeComponent();
-            controlsList = new List<Control>();
+            cellList = new List<Cell>();
 
         }
         public Grid(int control_count, ControlType _controlType)
         {
-            controlsList = new List<Control>();
+            cellList = new List<Cell>();
             int row = control_count / maxR;
             if (row > 0)
             {
-
                 CreateGrid(row + 1, maxC, _controlType);
             }
             else
@@ -63,7 +51,7 @@ namespace FaceRecognizerProject
         public Grid(ControlType _controlType)
         {
             InitializeComponent();
-            controlsList = new List<Control>();
+            cellList = new List<Cell>();
             controlType = _controlType;
         }
         /// <summary>
@@ -75,10 +63,43 @@ namespace FaceRecognizerProject
         public Grid(int _r, int _c, ControlType _controlType)
         {
             InitializeComponent();
-            controlsList = new List<Control>();
+            cellList = new List<Cell>();
             CreateGrid(_r, _c, _controlType);
             controlType = _controlType;
         }
+
+        private void menuItem_Click(object sender, EventArgs e)
+        {
+            // Try to cast the sender to a ToolStripItem
+            ToolStripItem menuItem = sender as ToolStripItem;
+            RotateFlipType rotateFlipType = RotateFlipType.RotateNoneFlipNone;
+            if(menuItem.Text == "None")
+                rotateFlipType = RotateFlipType.RotateNoneFlipNone;
+            else if (menuItem.Text == "90 Deg")
+                rotateFlipType = RotateFlipType.Rotate90FlipNone;
+            else if (menuItem.Text == "180 Deg")
+                rotateFlipType = RotateFlipType.Rotate180FlipNone;
+            else if (menuItem.Text == "270 Deg")
+                rotateFlipType = RotateFlipType.Rotate270FlipNone;
+           
+         
+                if (contextMenuOwnerControl != null)
+                {
+                 
+                    foreach (Cell cell in CellList)
+                    {
+                        if (contextMenuOwnerControl == cell.Control)
+                            cell.RotateType = rotateFlipType;
+                    }
+                }
+            
+        }
+
+        private void contextMSCell_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            contextMenuOwnerControl = contextMSCell.SourceControl;
+        }
+
         void CreateGrid(int _r, int _c, ControlType controlType)
         {
 
@@ -94,62 +115,63 @@ namespace FaceRecognizerProject
                 MessageBox.Show("You can not add this many cells to grid. This is a " + r + " by " + c + "grid.");
             }
 
-            maxControlWidth = Width / c;
-            maxControlHeight = Height / r;
-            bool newControl = false;
+            maxCellWidth = Width / c;
+            maxCellHeight = Height / r;
+            bool newCell = false;
             for (int i = 0; i < r; i++)
             {
                 for (int j = 0; j < c; j++)
                 {
-                    newControl = false;
-                    if (j + c * i + 1 >= ControlsList.Count || controlsList[j + c * i] == null)
+                    newCell = false;
+                    if (j + c * i + 1 > CellList.Count || cellList[j + c * i] == null)
                     {
-                        CreateControlForGrid(controlType);
-                        newControl = true;
+                        CreateCellForGrid(controlType);
+                        newCell = true;
                     }
-                    Control control = controlsList[j + c * i];
-                    control.Width = maxControlWidth;
-                    control.Height = maxControlHeight;
-                    control.Location = new Point(j * control.Width, i * control.Height);
-                    if (newControl)
+                    Cell cell = cellList[j + c * i];
+                    cell.CellWidth = maxCellWidth;
+                    cell.CellHeight = maxCellHeight;
+                    cell.Control.Location = new Point(j * cell.CellWidth, i * cell.CellHeight);
+                    if (newCell)
                     {
-                        control.Name = controlType.ToString() + (j + c * i);
-                        Controls.Add(control);
+                        cell.Control.Name = controlType.ToString() + (j + c * i);
+                        Controls.Add(cell.Control);
                     }
                 }
             }
         }
 
-        private void CreateControlForGrid(ControlType controlType)
+        private void CreateCellForGrid(ControlType controlType)
         {
-            Control control = null;
+            Cell cell = null;
             switch (controlType)
             {
                 case ControlType.Button:
-                    control = new Button();
+                    cell = new Cell(new Button(),ControlType.Button,contextMSCell);
 
                     break;
                 case ControlType.PictureBox:
-                    control = new PictureBox();
+                    cell = new Cell(new PictureBox(), ControlType.PictureBox, contextMSCell) ;
                     break;
                 case ControlType.ImageBox:
-                    control = new ImageBox();
-                    (control as ImageBox).SizeMode = PictureBoxSizeMode.Zoom;
-                    (control as ImageBox).FunctionalMode = ImageBox.FunctionalModeOption.Minimum;
-                    (control as ImageBox).Image = new Image<Bgr, Byte>("camWithImage\\nolivecam.png");
-                    (control as ImageBox).Tag = "0";
+                    ImageBox imageBox = new ImageBox();
+                    imageBox.SizeMode = PictureBoxSizeMode.Zoom;
+                    imageBox.FunctionalMode = ImageBox.FunctionalModeOption.Minimum;
+                    imageBox.Image = new Image<Bgr, Byte>("camWithImage\\nolivecam.png");
+                    imageBox.Tag = "0";
+                    cell = new Cell(imageBox, ControlType.ImageBox,contextMSCell);
                     break;
                 case ControlType.Panel:
-                    control = new Panel();
+                    cell = new Cell(new Panel(), ControlType.Panel, contextMSCell);
                     break;
                 case ControlType.GroupBox:
-                    control = new GroupBox();
+                    cell = new Cell(new GroupBox(),ControlType.GroupBox, contextMSCell);
                     break;
                 default:
                     break;
             }
             cellCount++;
-            controlsList.Add(control);
+            cellList.Add(cell);
         }
 
         //public void AddCell()
@@ -162,7 +184,7 @@ namespace FaceRecognizerProject
         //}
         public void AdjustCells(int newControlCount)
         {
-            int sumControl = controlsList.Count + newControlCount;
+            int sumControl = cellList.Count + newControlCount;
             int row =  sumControl / maxR;
 
             if (row > 0)
@@ -172,7 +194,7 @@ namespace FaceRecognizerProject
             }
             else
             {
-                CreateGrid(1, controlsList.Count + newControlCount, controlType);
+                CreateGrid(1, cellList.Count + newControlCount, controlType);
             }
 
 

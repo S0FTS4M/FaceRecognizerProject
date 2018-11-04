@@ -71,13 +71,16 @@
     <Compile Include="CameraSelector.Designer.cs">
       <DependentUpon>CameraSelector.cs</DependentUpon>
     </Compile>
+    <Compile Include="Cell.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Grid.cs" />
+    <Compile Include="Grid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Grid.Designer.cs">
       <DependentUpon>Grid.cs</DependentUpon>
     </Compile>
