@@ -1,4 +1,10 @@
-﻿using System;
+﻿#define Eigen
+#undef N
+#define LBPH
+#undef LBPH
+#define Fisher
+#undef Fisher
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -13,6 +19,7 @@ using AForge.Video;
 using System.Linq;
 
 using AForge.Video.DirectShow;
+
 
 namespace FaceRecognizerProject
 {
@@ -30,6 +37,7 @@ namespace FaceRecognizerProject
         Cell webcamCell;
 
         List<CameraInfo> camInfos;
+        
 
         double scaleFactor = 1.3;
         int minNeighbours = 5;
@@ -43,7 +51,8 @@ namespace FaceRecognizerProject
         //Recognizer Algorithm
         //new LBPHFaceRecognizer(1, 8, 8, 8, 100.0);
         //new FisherFaceRecognizer(10, 10.0);
-        FaceRecognizer faceRecognizer = new LBPHFaceRecognizer(1, 8, 8, 8, 100.0);
+        FaceRecognizer faceRecognizer = null;
+
         //The text font that we write the person name
         MCvFont mCvFont = new MCvFont(FONT.CV_FONT_HERSHEY_TRIPLEX, 1.5, 1.5);
 
@@ -113,6 +122,7 @@ namespace FaceRecognizerProject
 
             ofdFaceDetTraining.InitialDirectory = Application.StartupPath;
 
+            cmbRecognizer.SelectedIndex = 0;
             camInfos = new List<CameraInfo>();
         }
         private void timerCameraFramer_Tick(object sender, EventArgs e)
@@ -130,7 +140,7 @@ namespace FaceRecognizerProject
                 fps = 0;
                 stopwatch.Restart();
             }
-            label3.Text = "Cell count in grid now:"+grid.CellList.Count.ToString();
+            label3.Text = "Cell count in grid now:" + grid.CellList.Count.ToString();
             ///fps counter end
 
             capturedImage = capture.QueryFrame();
@@ -146,7 +156,7 @@ namespace FaceRecognizerProject
             DetectGuessShow(capturedImage, webcamImageBox, cascadeClassifierWebCam);
 
         }
-        void DetectGuessShow(Image<Bgr, byte> _capturedImage, ImageBox imageBox, CascadeClassifier cascadeClassifier)
+        public void DetectGuessShow(Image<Bgr, byte> _capturedImage, ImageBox imageBox, CascadeClassifier cascadeClassifier)
         {
             //if we didnt train the model we just can detect the face
             if (Modeltrained == false)
@@ -161,7 +171,7 @@ namespace FaceRecognizerProject
                 if (autoCapture && txtpersonname.Text != string.Empty)
                 {
                     //save captured image
-                    if (canCapture)
+                    if (canCapture && foundFace != null)
                     {
                         Image<Gray, byte> flippedImage = foundFace.Flip(FLIP.HORIZONTAL);
 
@@ -169,7 +179,8 @@ namespace FaceRecognizerProject
                         List<Image<Gray, byte>> preProcessedImages = PreProcessingImages(foundFace, flippedImage);
                         foreach (Image<Gray, byte> currImage in preProcessedImages)
                         {
-                            SaveImage(currImage, txtpersonname.Text + random.Next(0, 9).ToString() + random.Next(0, 9).ToString() + random.Next(0, 9).ToString());
+                            Image<Gray, byte> im = currImage.Resize(128, 128, INTER.CV_INTER_CUBIC);
+                            SaveImage(im, txtpersonname.Text + random.Next(0, 9).ToString() + random.Next(0, 9).ToString() + random.Next(0, 9).ToString());
                         }
 
 
@@ -226,8 +237,8 @@ namespace FaceRecognizerProject
                 //{
                 //    MessageBox.Show("hata");
                 //}
-                
-              //  _images[i] = _images[i].SmoothGaussian(3);
+
+                //  _images[i] = _images[i].SmoothGaussian(3);
                 _images[i] = _images[i].SmoothBilatral(9, 75, 75);
                 preProccessedImages.Add(_images[i]);
 
@@ -255,6 +266,7 @@ namespace FaceRecognizerProject
                 try
                 {
                     Image<Gray, byte> currentPreProccessedFace = PreProcessingImages(grayImage.Copy(rect))[0];
+                    currentPreProccessedFace = currentPreProccessedFace.Resize(128, 128, INTER.CV_INTER_CUBIC);
                     result = faceRecognizer.Predict(currentPreProccessedFace);
 
                 }
@@ -362,7 +374,11 @@ namespace FaceRecognizerProject
         }
         private void BtnLoad_Click(object sender, System.EventArgs e)
         {
-            faceRecognizer = new LBPHFaceRecognizer(1, 8, 8, 8, 100.0);
+            if (faceRecognizer == null)
+            {
+                MessageBox.Show("FaceRecognizer is null???");
+                return;
+            }
             if (File.Exists(trainingFilePath))
             {
                 Modeltrained = true;
@@ -503,8 +519,10 @@ namespace FaceRecognizerProject
                         grid.CellList[i].CascadeClassifier = new CascadeClassifier(classifierPath);
                         //add to the dictionary that takes a jpegstream and a cell that stream controls
                         mJpegStreamToCell.Add(jPEGStreamList[jIndex], grid.CellList[i]);
+                        grid.CellList[i].MJPEGStream = jPEGStreamList[jIndex];
                         //create the frame that captures frames
                         jPEGStreamList[jIndex].NewFrame += JPEGStream_NewFrame;
+
                         //assign objects tag as 1 so we can know that we are using this cell
                         grid.CellList[i].CellTaken = true;
                     }
@@ -536,6 +554,23 @@ namespace FaceRecognizerProject
                     stream.Stop();
             }
         }
+
+        private void cmbRecognizer_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbRecognizer.SelectedIndex == 0)
+            {
+                faceRecognizer = new EigenFaceRecognizer(123, double.PositiveInfinity);
+            }
+            else if (cmbRecognizer.SelectedIndex == 1)
+            {
+                faceRecognizer = new FisherFaceRecognizer(10, 10.0);
+            }
+            else if (cmbRecognizer.SelectedIndex == 2)
+            {
+                faceRecognizer = new LBPHFaceRecognizer(1, 8, 8, 8, 100.0);
+            }
+        }
+
         private void tsmitrainingFile_Click(object sender, EventArgs e)
         {
             string filePath = "";

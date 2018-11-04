@@ -55,6 +55,7 @@
             this.tsmitrainingFile = new System.Windows.Forms.ToolStripMenuItem();
             this.ofdFaceDetTraining = new System.Windows.Forms.OpenFileDialog();
             this.label3 = new System.Windows.Forms.Label();
+            this.cmbRecognizer = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.grpbAutoCapture.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numupdautocapturems)).BeginInit();
@@ -86,7 +87,7 @@
             this.btnTrain.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnTrain.Font = new System.Drawing.Font("Tahoma", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.btnTrain.ForeColor = System.Drawing.Color.White;
-            this.btnTrain.Location = new System.Drawing.Point(18, 22);
+            this.btnTrain.Location = new System.Drawing.Point(13, 75);
             this.btnTrain.Name = "btnTrain";
             this.btnTrain.Size = new System.Drawing.Size(72, 71);
             this.btnTrain.TabIndex = 4;
@@ -204,13 +205,14 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.cmbRecognizer);
             this.groupBox2.Controls.Add(this.gruopTrained);
             this.groupBox2.Controls.Add(this.btnLoad);
             this.groupBox2.Controls.Add(this.btnTrain);
             this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.groupBox2.Location = new System.Drawing.Point(806, 326);
+            this.groupBox2.Location = new System.Drawing.Point(806, 292);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(266, 100);
+            this.groupBox2.Size = new System.Drawing.Size(266, 153);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Recognizer";
@@ -220,7 +222,7 @@
             this.gruopTrained.Controls.Add(this.rbfalse);
             this.gruopTrained.Controls.Add(this.rbtrue);
             this.gruopTrained.Enabled = false;
-            this.gruopTrained.Location = new System.Drawing.Point(181, 16);
+            this.gruopTrained.Location = new System.Drawing.Point(176, 69);
             this.gruopTrained.Name = "gruopTrained";
             this.gruopTrained.Size = new System.Drawing.Size(78, 78);
             this.gruopTrained.TabIndex = 6;
@@ -259,7 +261,7 @@
             this.btnLoad.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLoad.Font = new System.Drawing.Font("Tahoma", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.btnLoad.ForeColor = System.Drawing.Color.White;
-            this.btnLoad.Location = new System.Drawing.Point(95, 22);
+            this.btnLoad.Location = new System.Drawing.Point(90, 75);
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(72, 71);
             this.btnLoad.TabIndex = 5;
@@ -343,6 +345,20 @@
             this.label3.TabIndex = 10;
             this.label3.Text = "FPS:0";
             // 
+            // cmbRecognizer
+            // 
+            this.cmbRecognizer.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.cmbRecognizer.FormattingEnabled = true;
+            this.cmbRecognizer.Items.AddRange(new object[] {
+            "Eigen",
+            "Fisher",
+            "LBPH"});
+            this.cmbRecognizer.Location = new System.Drawing.Point(14, 32);
+            this.cmbRecognizer.Name = "cmbRecognizer";
+            this.cmbRecognizer.Size = new System.Drawing.Size(240, 31);
+            this.cmbRecognizer.TabIndex = 7;
+            this.cmbRecognizer.SelectedIndexChanged += new System.EventHandler(this.cmbRecognizer_SelectedIndexChanged);
+            // 
             // frmfacerec
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -402,6 +418,7 @@
         private System.Windows.Forms.ToolStripMenuItem tsmitrainingFile;
         private System.Windows.Forms.OpenFileDialog ofdFaceDetTraining;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox cmbRecognizer;
     }
 }
 

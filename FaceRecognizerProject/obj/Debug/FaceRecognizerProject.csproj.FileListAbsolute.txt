@@ -1,7 +1,6 @@
 C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\bin\Debug\FaceRecognizerProject.exe.config
 C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\bin\Debug\FaceRecognizerProject.exe
 C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\bin\Debug\FaceRecognizerProject.pdb
-C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\obj\Debug\FaceRecognizerProject.csprojAssemblyReference.cache
 C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\obj\Debug\FaceRecognizerProject.Properties.Resources.resources
 C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\obj\Debug\FaceRecognizerProject.csproj.GenerateResource.cache
 C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\obj\Debug\FaceRecognizerProject.csproj.CoreCompileInputs.cache
@@ -17,3 +16,5 @@ C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\bin\Debu
 C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\bin\Debug\AForge.Video.DirectShow.dll
 C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\bin\Debug\AForge.Video.DirectShow.xml
 C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\obj\Debug\FaceRecognizerProject.Grid.resources
+C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\obj\Debug\FaceRecognizerProject.SelectedCamForm.resources
+C:\Users\sml_o\source\repos\FaceRecognizerProject\FaceRecognizerProject\obj\Debug\FaceRecognizerProject.csprojAssemblyReference.cache

@@ -21,6 +21,8 @@ namespace FaceRecognizerProject
         Control contextMenuOwnerControl=null;
         List<Cell> cellList;
         public List<Cell> CellList { get => cellList; protected set => cellList = value; }
+        public ControlType ControlType { get => controlType; set => controlType = value; }
+
         ControlType controlType;
 
         public Grid()
@@ -41,7 +43,7 @@ namespace FaceRecognizerProject
             {
                 CreateGrid(1, control_count, _controlType);
             }
-            controlType = _controlType;
+            ControlType = _controlType;
 
         }
         /// <summary>
@@ -52,7 +54,7 @@ namespace FaceRecognizerProject
         {
             InitializeComponent();
             cellList = new List<Cell>();
-            controlType = _controlType;
+            ControlType = _controlType;
         }
         /// <summary>
         /// creates rxc grid
@@ -65,7 +67,7 @@ namespace FaceRecognizerProject
             InitializeComponent();
             cellList = new List<Cell>();
             CreateGrid(_r, _c, _controlType);
-            controlType = _controlType;
+            ControlType = _controlType;
         }
 
         private void menuItem_Click(object sender, EventArgs e)
@@ -190,11 +192,11 @@ namespace FaceRecognizerProject
             if (row > 0)
             {
 
-                CreateGrid(row + 1, sumControl % maxR == 0? maxC : sumControl % maxR, controlType);
+                CreateGrid(row , sumControl % maxR == 0? maxC : sumControl % maxR, ControlType);
             }
             else
             {
-                CreateGrid(1, cellList.Count + newControlCount, controlType);
+                CreateGrid(1, cellList.Count + newControlCount, ControlType);
             }
 
 
