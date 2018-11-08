@@ -1,7 +1,25 @@
-[ ]Multiple IP camera addition
-[ ]find faces in every one of them
+[*]Multiple IP camera addition
+[*]find faces in every one of them
 [ ]save and load ip camera infos for later
-[ ]trained groupbox has a small issue. With Loading or Training
-[ ]when I get the info list I need to save that list to another list in main form because I will need every one of them later
-I need to add ip cams anytime I want to.
-[ ]Creating a new grid every time we adding a new IP camera???? This does not look good!!!
+[*]trained groupbox has a small issue. With Loading or Training
+[?]when I get the info list I need to save that list to another list in main form because I will need every one of them later
+[*]I need to add ip cams anytime I want to.
+[*]When training, do a diff between consecutive frames and only pre-process the frame if it is noticeably different from the previous one 
+
+[*]Add both the image and a mirrored version to the training set so that you have more training data, also to deal with faces that are looking to the left or right
+[*]Histogram equalisation to improve the contrast and brightness of a face
+[ ]Removal of forehead, chin, ears, and background from the face image
+[*]Separate histogram equalisation for left and right sides of the face independently
+[*]Smoothing or removing noise using a bilateral filter
+[ ]The face is scaled, rotated, translated so that the eyes are aligned.
+[ ]Elliptical mask to remove remaining hair and background
+
+Turkish
+[*]Ben her seferinde yeni grid oluþturuyorum saçma mantýksýz aptalca onun yerine grid içindeki metodlarý düzenleyip veriyi kaybetmemek ayný zamanda bellek ve zaman olarak kazanç saðlamak amaçlanacak
+[ ]Grid fazladan objeler ile oluþtrulursa onlara yeni bir kamera atamak gibi bir iþlem yapýlabilir
+daha önceden baþka bir kameranýn atandýðý bir yere baþka bir kamera atanabilir bunun için bir context menu yapýlabilir
+[?]Bir hücreye çift týklandýðýnda o hücredeki kamera yeni bir ekranda büyük olarak açýlabilir.
+[*]Timer sadece webcam için bulunabilir. Aforge ile webcamden yeterince iyi framelerde data gelmiyor timer ve capture ile yapabilirim
+[!]Indexed Camera iþini þimdilik göz ardý edeceðim ama onu eklediðimde tek yapmam gereken Aforge ile kullanmak
+[*]Webcam e atama yaparken tüm hepsini atýyorum onu deðiþtirmem lazým uygun cam bulunduðunda çýkýlacak
+

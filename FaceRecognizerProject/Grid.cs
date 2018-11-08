@@ -13,6 +13,7 @@ namespace FaceRecognizerProject
    
     public partial class Grid : UserControl
     {
+        
         //there will be a m by n grid so we will have a m and n from user
         int cellCount = 0;
         int maxC = 3, maxR = 3;
@@ -24,6 +25,7 @@ namespace FaceRecognizerProject
         public ControlType ControlType { get => controlType; set => controlType = value; }
 
         ControlType controlType;
+        MouseEventHandler mouseUp, mouseDown, mouseMove;
 
         public Grid()
         {
@@ -161,6 +163,9 @@ namespace FaceRecognizerProject
                     imageBox.FunctionalMode = ImageBox.FunctionalModeOption.Minimum;
                     imageBox.Image = new Image<Bgr, Byte>("camWithImage\\nolivecam.png");
                     imageBox.Tag = "0";
+                    imageBox.MouseUp += mouseUp;
+                    imageBox.MouseDown += mouseDown;
+                    imageBox.MouseMove += mouseMove;
                     cell = new Cell(imageBox, ControlType.ImageBox,contextMSCell);
                     break;
                 case ControlType.Panel:
@@ -175,7 +180,15 @@ namespace FaceRecognizerProject
             cellCount++;
             cellList.Add(cell);
         }
-
+        public void SetMouseEventsForCells(MouseEventHandler down, MouseEventHandler up, MouseEventHandler move)
+        {
+            mouseDown = down;
+            mouseUp = up;
+            mouseMove = move;
+            this.MouseMove += mouseMove;
+            this.MouseUp += mouseUp;
+            this.MouseDown += mouseDown;
+        }
         //public void AddCell()
         //{
 

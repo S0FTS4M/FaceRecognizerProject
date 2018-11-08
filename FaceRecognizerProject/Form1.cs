@@ -1,10 +1,4 @@
-﻿#define Eigen
-#undef N
-#define LBPH
-#undef LBPH
-#define Fisher
-#undef Fisher
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -16,10 +10,6 @@ using System.IO;
 using static Emgu.CV.FaceRecognizer;
 using Emgu.CV.UI;
 using AForge.Video;
-using System.Linq;
-
-using AForge.Video.DirectShow;
-
 
 namespace FaceRecognizerProject
 {
@@ -33,16 +23,19 @@ namespace FaceRecognizerProject
 
         string classifierPath = @"cascades/haarcascade_frontalface_alt.xml";
 
+        int contraintsForPicPerPerson = 50;
+        int picCountPerPerson = 0;
+
         Dictionary<MJPEGStream, Cell> mJpegStreamToCell;
         Cell webcamCell;
 
         List<CameraInfo> camInfos;
-        
+
 
         double scaleFactor = 1.3;
         int minNeighbours = 5;
         Size minSize = new Size(64, 64);
-        Size maxSize = new Size(256, 256);
+        Size maxSize = new Size(512, 512);
 
         List<MJPEGStream> jPEGStreamList;
         //Capture will access the camera and reads the stream
@@ -114,17 +107,60 @@ namespace FaceRecognizerProject
 
             classifiers = new List<CascadeClassifier>();
 
+            //Create Grid object with all needs
             grid = new Grid(ControlType.ImageBox);
-            Controls.Add(grid);
+            camPanel.Controls.Add(grid);
+            grid.BackColor = Color.FromArgb(50, 50, 50);
+            grid.Dock = DockStyle.Fill;
+            grid.SetMouseEventsForCells(Mouse_Down_Event, Mouse_Up_Event, Mouse_Move_Event);
 
+            //create Mjpegstream lists
             mJpegStreamToCell = new Dictionary<MJPEGStream, Cell>();
             jPEGStreamList = new List<MJPEGStream>();
 
+            //face detection files starting path
             ofdFaceDetTraining.InitialDirectory = Application.StartupPath;
-
+            //select first recognizer in the list
             cmbRecognizer.SelectedIndex = 0;
+
             camInfos = new List<CameraInfo>();
+            //The limit of pictures per person
+            contraintsForPicPerPerson = (int)numupdautocapturems.Value;
         }
+        #region MoveForm
+        //Moving the form
+        Point downPoint = Point.Empty;
+        private void Mouse_Down_Event(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                downPoint = e.Location;
+               
+            }
+        }
+        private void Mouse_Move_Event(object sender, MouseEventArgs e)
+        {
+            if (downPoint == Point.Empty)
+            {
+                return;
+            }
+            Point location = new Point(
+                this.Left + e.X - downPoint.X,
+                this.Top + e.Y - downPoint.Y);
+            this.Location = location;
+            Cursor.Current = Cursors.SizeAll;
+        }
+        private void Mouse_Up_Event(object sender, MouseEventArgs e)
+        {
+
+            if (e.Button == MouseButtons.Left)
+            {
+                downPoint = Point.Empty;
+                Cursor.Current = Cursors.Arrow;
+            }
+        }
+        #endregion
+
         private void timerCameraFramer_Tick(object sender, EventArgs e)
         {
             //The original image we read from cam
@@ -171,17 +207,24 @@ namespace FaceRecognizerProject
                 if (autoCapture && txtpersonname.Text != string.Empty)
                 {
                     //save captured image
-                    if (canCapture && foundFace != null)
+                    if (canCapture && foundFace != null && picCountPerPerson <= contraintsForPicPerPerson)
                     {
                         Image<Gray, byte> flippedImage = foundFace.Flip(FLIP.HORIZONTAL);
+
+                        if (picCountPerPerson == 0)
+                        {
+                            Image<Bgr, byte> saveIm = capturedImageForSaving.Resize(256, 256, INTER.CV_INTER_CUBIC);
+                            SaveImage(saveIm, txtpersonname.Text);
+                        }
 
                         //save image with name and 3 other random numbers
                         List<Image<Gray, byte>> preProcessedImages = PreProcessingImages(foundFace, flippedImage);
                         foreach (Image<Gray, byte> currImage in preProcessedImages)
                         {
-                            Image<Gray, byte> im = currImage.Resize(128, 128, INTER.CV_INTER_CUBIC);
-                            SaveImage(im, txtpersonname.Text + random.Next(0, 9).ToString() + random.Next(0, 9).ToString() + random.Next(0, 9).ToString());
+
+                            SaveImage(currImage, txtpersonname.Text + random.Next(0, 9).ToString() + random.Next(0, 9).ToString() + random.Next(0, 9).ToString());
                         }
+                        picCountPerPerson++;
 
 
                         //reset elapsed time
@@ -229,6 +272,8 @@ namespace FaceRecognizerProject
             for (int i = 0; i < _images.Length; i++)
             {
 
+                _images[i] = _images[i].Resize(128, 128, INTER.CV_INTER_CUBIC);
+
                 //try
                 //{
                 _images[i]._EqualizeHist();
@@ -259,14 +304,17 @@ namespace FaceRecognizerProject
                 maxSize);
             //  lblCapturingInfo.Text = "undefind";
             //for every rectangle that we found from classifier.DetectMultiScale we need to make a guess
+            //Console.Clear();
             foreach (var rect in faces)
             {
 
                 PredictionResult result = new PredictionResult();
                 try
                 {
-                    Image<Gray, byte> currentPreProccessedFace = PreProcessingImages(grayImage.Copy(rect))[0];
-                    currentPreProccessedFace = currentPreProccessedFace.Resize(128, 128, INTER.CV_INTER_CUBIC);
+                    Image<Gray, byte> face = grayImage.Copy(rect);
+
+                    Image<Gray, byte> currentPreProccessedFace = PreProcessingImages(face)[0];
+
                     result = faceRecognizer.Predict(currentPreProccessedFace);
 
                 }
@@ -283,12 +331,22 @@ namespace FaceRecognizerProject
                     //draw the filled rectangle under the face rectangle
                     // capturedImage.Draw(new Rectangle(new Point(rect.X, rect.Y + rect.Height), new Size(rect.Width - 2, 20)), new Bgr(Color.Green), 20);
                     //draw prediction result over filled rectangle
-
+                    //  lblFoundPerson.Text = "Name : " + listOfFileNames[result.Label];
+                    //  if(listOfFileNames[result.Label].ToLower().Trim() == "Mali".Trim().ToLower())
+                    
+                    Console.WriteLine("Result Distance"+result.Distance.ToString());
+                    
+                    lblMatch.BackColor = Color.Green;
+                    //pbFoundPerson.Image = Image.FromFile("training/" + listOfFileNames[result.Label] + ".png");
                     capturedImage.Draw(listOfFileNames[result.Label], ref mCvFont, new Point(rect.X + fontOffsetX, rect.Y + rect.Height + fontOffsetY), new Bgr(Color.Yellow));
                 }
                 else
                 {
                     capturedImage.Draw(rect, new Bgr(Color.Red), 3);
+                 //   lblFoundPerson.Text = "Name : Not Found";
+                   // lblMatch.Text = "[NO MATCH]";
+                    //lblMatch.BackColor = Color.Red;
+                    //pbFoundPerson.Image = null;
                     //draw the filled rectangle under the face rectangle
                     //capturedImage.Draw(new Rectangle(new Point(rect.X, rect.Y + rect.Height), new Size(rect.Width - 2, 20)), new Bgr(Color.Red), 20);
                     capturedImage.Draw("Unknown", ref mCvFont, new Point(rect.X + fontOffsetX, rect.Y + rect.Height + fontOffsetY), new Bgr(Color.Red));
@@ -306,6 +364,7 @@ namespace FaceRecognizerProject
             //convert image to gray scale
             Image<Gray, byte> grayImage = _image.Convert<Gray, byte>();
             Image<Gray, byte> face = null;
+             grayImage._EqualizeHist();
             //grayImage = PreProcessingImages(grayImage)[0];
             //detect faces 
             var faces = cascadeClassifier.DetectMultiScale(
@@ -397,7 +456,7 @@ namespace FaceRecognizerProject
         }
         private void chcBautoCapture_CheckedChanged(object sender, EventArgs e)
         {
-            autoCapture = grpbAutoCapture.Visible = chcBautoCapture.Checked;
+            autoCapture = grpbAutoCapture.Enabled = chcBautoCapture.Checked;
             btnCapture.Enabled = !chcBautoCapture.Checked;
 
         }
@@ -423,6 +482,7 @@ namespace FaceRecognizerProject
                     SaveImage(currImage, txtpersonname.Text + random.Next(0, 9).ToString() + random.Next(0, 9).ToString() + random.Next(0, 9).ToString());
                 }
             }
+            
             else
             {
 
@@ -548,6 +608,7 @@ namespace FaceRecognizerProject
         }
         private void frmfacerec_FormClosing(object sender, FormClosingEventArgs e)
         {
+
             foreach (var stream in jPEGStreamList)
             {
                 if (stream != null)
@@ -559,7 +620,7 @@ namespace FaceRecognizerProject
         {
             if (cmbRecognizer.SelectedIndex == 0)
             {
-                faceRecognizer = new EigenFaceRecognizer(123, double.PositiveInfinity);
+                faceRecognizer = new EigenFaceRecognizer(80, double.PositiveInfinity);
             }
             else if (cmbRecognizer.SelectedIndex == 1)
             {
@@ -569,6 +630,17 @@ namespace FaceRecognizerProject
             {
                 faceRecognizer = new LBPHFaceRecognizer(1, 8, 8, 8, 100.0);
             }
+        }
+
+        private void txtpersonname_TextChanged(object sender, EventArgs e)
+        {
+
+            picCountPerPerson = 0;
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
 
         private void tsmitrainingFile_Click(object sender, EventArgs e)

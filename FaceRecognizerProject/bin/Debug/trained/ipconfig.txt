@@ -1,4 +1,4 @@
-IP;http://192.168.137.113:4747/mjpegfeed?
+IP;http://192.168.137.50:4747/mjpegfeed?
 Res;1
 UserName;softsam
 Pwd;softsam
