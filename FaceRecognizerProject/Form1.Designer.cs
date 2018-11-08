@@ -60,9 +60,9 @@
             this.btnExit = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.pbFoundPerson = new System.Windows.Forms.PictureBox();
-            this.lblFoundPerson = new System.Windows.Forms.Label();
             this.lblMatch = new System.Windows.Forms.Label();
+            this.lblFoundPerson = new System.Windows.Forms.Label();
+            this.pbFoundPerson = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             this.grpbAutoCapture.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numupdautocapturems)).BeginInit();
@@ -87,7 +87,7 @@
             this.label1.Location = new System.Drawing.Point(1259, 50);
             this.label1.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(59, 28);
+            this.label1.Size = new System.Drawing.Size(48, 21);
             this.label1.TabIndex = 3;
             this.label1.Text = "FPS:0";
             // 
@@ -135,7 +135,7 @@
             this.lblCapturingInfo.Location = new System.Drawing.Point(25, 242);
             this.lblCapturingInfo.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lblCapturingInfo.Name = "lblCapturingInfo";
-            this.lblCapturingInfo.Size = new System.Drawing.Size(104, 20);
+            this.lblCapturingInfo.Size = new System.Drawing.Size(84, 15);
             this.lblCapturingInfo.TabIndex = 7;
             this.lblCapturingInfo.Text = "Capturing Info";
             // 
@@ -173,7 +173,7 @@
             0,
             0});
             this.numupdautocapturems.Name = "numupdautocapturems";
-            this.numupdautocapturems.Size = new System.Drawing.Size(165, 38);
+            this.numupdautocapturems.Size = new System.Drawing.Size(165, 32);
             this.numupdautocapturems.TabIndex = 0;
             this.numupdautocapturems.ThousandsSeparator = true;
             this.numupdautocapturems.Value = new decimal(new int[] {
@@ -190,7 +190,7 @@
             this.label2.Location = new System.Drawing.Point(16, 36);
             this.label2.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(112, 23);
+            this.label2.Size = new System.Drawing.Size(90, 19);
             this.label2.TabIndex = 8;
             this.label2.Text = "Person Name";
             // 
@@ -202,7 +202,7 @@
             this.chcBautoCapture.Location = new System.Drawing.Point(218, 117);
             this.chcBautoCapture.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.chcBautoCapture.Name = "chcBautoCapture";
-            this.chcBautoCapture.Size = new System.Drawing.Size(146, 32);
+            this.chcBautoCapture.Size = new System.Drawing.Size(117, 25);
             this.chcBautoCapture.TabIndex = 7;
             this.chcBautoCapture.Text = "AutoCapture";
             this.chcBautoCapture.UseVisualStyleBackColor = true;
@@ -233,7 +233,7 @@
             this.txtpersonname.Location = new System.Drawing.Point(20, 75);
             this.txtpersonname.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.txtpersonname.Name = "txtpersonname";
-            this.txtpersonname.Size = new System.Drawing.Size(370, 34);
+            this.txtpersonname.Size = new System.Drawing.Size(370, 29);
             this.txtpersonname.TabIndex = 0;
             this.txtpersonname.TextChanged += new System.EventHandler(this.txtpersonname_TextChanged);
             // 
@@ -269,7 +269,7 @@
             this.cmbRecognizer.Location = new System.Drawing.Point(22, 41);
             this.cmbRecognizer.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.cmbRecognizer.Name = "cmbRecognizer";
-            this.cmbRecognizer.Size = new System.Drawing.Size(400, 39);
+            this.cmbRecognizer.Size = new System.Drawing.Size(400, 33);
             this.cmbRecognizer.TabIndex = 7;
             this.cmbRecognizer.SelectedIndexChanged += new System.EventHandler(this.cmbRecognizer_SelectedIndexChanged);
             // 
@@ -295,7 +295,7 @@
             this.rbfalse.Location = new System.Drawing.Point(8, 63);
             this.rbfalse.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.rbfalse.Name = "rbfalse";
-            this.rbfalse.Size = new System.Drawing.Size(65, 27);
+            this.rbfalse.Size = new System.Drawing.Size(54, 23);
             this.rbfalse.TabIndex = 1;
             this.rbfalse.TabStop = true;
             this.rbfalse.Text = "false";
@@ -310,7 +310,7 @@
             this.rbtrue.Location = new System.Drawing.Point(8, 30);
             this.rbtrue.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.rbtrue.Name = "rbtrue";
-            this.rbtrue.Size = new System.Drawing.Size(62, 27);
+            this.rbtrue.Size = new System.Drawing.Size(52, 23);
             this.rbtrue.TabIndex = 0;
             this.rbtrue.TabStop = true;
             this.rbtrue.Text = "true";
@@ -362,7 +362,7 @@
             this.ıpCameraToolStripMenuItem});
             this.cameraToolStripMenuItem.ForeColor = System.Drawing.Color.Silver;
             this.cameraToolStripMenuItem.Name = "cameraToolStripMenuItem";
-            this.cameraToolStripMenuItem.Size = new System.Drawing.Size(81, 41);
+            this.cameraToolStripMenuItem.Size = new System.Drawing.Size(68, 41);
             this.cameraToolStripMenuItem.Text = "Camera";
             // 
             // tsmiwebcam
@@ -371,7 +371,7 @@
             this.tsmiwebcam.ForeColor = System.Drawing.Color.White;
             this.tsmiwebcam.Name = "tsmiwebcam";
             this.tsmiwebcam.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
-            this.tsmiwebcam.Size = new System.Drawing.Size(217, 28);
+            this.tsmiwebcam.Size = new System.Drawing.Size(184, 24);
             this.tsmiwebcam.Text = "Webcam";
             this.tsmiwebcam.Click += new System.EventHandler(this.tsmiwebcam_Click);
             // 
@@ -381,7 +381,7 @@
             this.tsmiIndex.ForeColor = System.Drawing.Color.White;
             this.tsmiIndex.Name = "tsmiIndex";
             this.tsmiIndex.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.tsmiIndex.Size = new System.Drawing.Size(217, 28);
+            this.tsmiIndex.Size = new System.Drawing.Size(184, 24);
             this.tsmiIndex.Text = "Index";
             this.tsmiIndex.Click += new System.EventHandler(this.tsmiIndex_Click);
             // 
@@ -392,7 +392,7 @@
             this.tsmiaddCamera});
             this.ıpCameraToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.ıpCameraToolStripMenuItem.Name = "ıpCameraToolStripMenuItem";
-            this.ıpCameraToolStripMenuItem.Size = new System.Drawing.Size(217, 28);
+            this.ıpCameraToolStripMenuItem.Size = new System.Drawing.Size(184, 24);
             this.ıpCameraToolStripMenuItem.Text = "Ip Camera";
             // 
             // tsmiaddCamera
@@ -401,7 +401,7 @@
             this.tsmiaddCamera.ForeColor = System.Drawing.Color.White;
             this.tsmiaddCamera.Name = "tsmiaddCamera";
             this.tsmiaddCamera.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
-            this.tsmiaddCamera.Size = new System.Drawing.Size(235, 28);
+            this.tsmiaddCamera.Size = new System.Drawing.Size(199, 24);
             this.tsmiaddCamera.Text = "Add Camera";
             this.tsmiaddCamera.Click += new System.EventHandler(this.tsmiaddCamera_Click);
             // 
@@ -409,7 +409,7 @@
             // 
             this.tsmitrainingFile.ForeColor = System.Drawing.Color.Silver;
             this.tsmitrainingFile.Name = "tsmitrainingFile";
-            this.tsmitrainingFile.Size = new System.Drawing.Size(113, 41);
+            this.tsmitrainingFile.Size = new System.Drawing.Size(93, 41);
             this.tsmitrainingFile.Text = "Training File";
             this.tsmitrainingFile.Click += new System.EventHandler(this.tsmitrainingFile_Click);
             // 
@@ -425,7 +425,7 @@
             this.label3.Location = new System.Drawing.Point(1384, 50);
             this.label3.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(59, 28);
+            this.label3.Size = new System.Drawing.Size(48, 21);
             this.label3.TabIndex = 10;
             this.label3.Text = "FPS:0";
             // 
@@ -476,6 +476,29 @@
             this.panel2.Size = new System.Drawing.Size(440, 295);
             this.panel2.TabIndex = 12;
             // 
+            // lblMatch
+            // 
+            this.lblMatch.AutoSize = true;
+            this.lblMatch.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lblMatch.ForeColor = System.Drawing.Color.White;
+            this.lblMatch.Location = new System.Drawing.Point(337, 0);
+            this.lblMatch.Name = "lblMatch";
+            this.lblMatch.Size = new System.Drawing.Size(101, 19);
+            this.lblMatch.TabIndex = 3;
+            this.lblMatch.Text = "[NO MATCH]";
+            // 
+            // lblFoundPerson
+            // 
+            this.lblFoundPerson.AutoSize = true;
+            this.lblFoundPerson.Dock = System.Windows.Forms.DockStyle.Left;
+            this.lblFoundPerson.Font = new System.Drawing.Font("Segoe UI Emoji", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFoundPerson.ForeColor = System.Drawing.Color.White;
+            this.lblFoundPerson.Location = new System.Drawing.Point(0, 0);
+            this.lblFoundPerson.Name = "lblFoundPerson";
+            this.lblFoundPerson.Size = new System.Drawing.Size(99, 19);
+            this.lblFoundPerson.TabIndex = 2;
+            this.lblFoundPerson.Text = "Name : EMPTY";
+            // 
             // pbFoundPerson
             // 
             this.pbFoundPerson.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -486,32 +509,9 @@
             this.pbFoundPerson.TabIndex = 0;
             this.pbFoundPerson.TabStop = false;
             // 
-            // lblFoundPerson
-            // 
-            this.lblFoundPerson.AutoSize = true;
-            this.lblFoundPerson.Dock = System.Windows.Forms.DockStyle.Left;
-            this.lblFoundPerson.Font = new System.Drawing.Font("Segoe UI Emoji", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFoundPerson.ForeColor = System.Drawing.Color.White;
-            this.lblFoundPerson.Location = new System.Drawing.Point(0, 0);
-            this.lblFoundPerson.Name = "lblFoundPerson";
-            this.lblFoundPerson.Size = new System.Drawing.Size(122, 22);
-            this.lblFoundPerson.TabIndex = 2;
-            this.lblFoundPerson.Text = "Name : EMPTY";
-            // 
-            // lblMatch
-            // 
-            this.lblMatch.AutoSize = true;
-            this.lblMatch.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lblMatch.ForeColor = System.Drawing.Color.White;
-            this.lblMatch.Location = new System.Drawing.Point(313, 0);
-            this.lblMatch.Name = "lblMatch";
-            this.lblMatch.Size = new System.Drawing.Size(125, 22);
-            this.lblMatch.TabIndex = 3;
-            this.lblMatch.Text = "[NO MATCH]";
-            // 
             // frmfacerec
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 22F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.ClientSize = new System.Drawing.Size(1721, 883);

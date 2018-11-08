@@ -25,7 +25,37 @@ namespace FaceRecognizerProject
             cameraInfos = new List<CameraInfo>();
            
         }
+        //Moving the form
+        Point downPoint = Point.Empty;
+        private void Mouse_Down_Event(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                downPoint = e.Location;
 
+            }
+        }
+        private void Mouse_Move_Event(object sender, MouseEventArgs e)
+        {
+            if (downPoint == Point.Empty)
+            {
+                return;
+            }
+            Point location = new Point(
+                this.Left + e.X - downPoint.X,
+                this.Top + e.Y - downPoint.Y);
+            this.Location = location;
+            Cursor.Current = Cursors.SizeAll;
+        }
+        private void Mouse_Up_Event(object sender, MouseEventArgs e)
+        {
+
+            if (e.Button == MouseButtons.Left)
+            {
+                downPoint = Point.Empty;
+                Cursor.Current = Cursors.Arrow;
+            }
+        }
         public CameraSelector(CameraType _cameraType)
         {
             cameraInfos = new List<CameraInfo>();
@@ -138,7 +168,7 @@ namespace FaceRecognizerProject
 
         private void chcshowHide_CheckedChanged(object sender, EventArgs e)
         {
-            txtpwd.UseSystemPasswordChar = chcshowHide.Checked;
+            txtpwd.UseSystemPasswordChar = !chcshowHide.Checked;
         }
 
         private void CameraSelector_Load(object sender, EventArgs e)
@@ -160,6 +190,11 @@ namespace FaceRecognizerProject
         private void chcbResActive_CheckedChanged(object sender, EventArgs e)
         {
             cmbresolution.Visible = chcbResActive.Checked;
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
